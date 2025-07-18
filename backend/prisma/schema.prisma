@@ -1,0 +1,65 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model user {
+  id String @id @default(uuid())
+  firstName String @map("first_name")
+  secondName  String @map("second_name")
+  userName String @unique @map("user_name") 
+  email String @unique
+  isDeleted Boolean @default(false)
+  createAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt
+  password String
+  task tasks[]
+  group groupMembers[]
+}
+
+model tasks {
+  id String @id @default(uuid())
+  title String 
+  description String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  isDeleted Boolean @map("is_deleted") @default(false)
+  urgency Int @default(0)
+  deadLine DateTime? 
+  iscompleted Boolean @default (false)
+  userId String?
+  groupId String?
+  group group? @relation(fields: [groupId], references: [id])
+  user user? @relation(fields: [userId], references: [id])
+}
+
+model group  {
+  id String @id @default(uuid())
+  name String 
+  description String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  isDeleted Boolean @map("is_deleted") @default(false)
+  task tasks[]
+  groupMembers groupMembers[]
+
+}
+
+model groupMembers {
+  id String @id @default(uuid())
+  groupId String @map("group_id")
+  userId String @map("User_id")
+  role String @default("user")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  isDeleted Boolean @map("is_deleted") @default(false)
+  group group @relation(fields: [groupId], references: [id])
+  user user @relation(fields: [userId], references: [id])
+
+}

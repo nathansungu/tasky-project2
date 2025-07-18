@@ -1,0 +1,22 @@
+import {z }from "zod";
+
+const createTaskSchema = z.object({
+    title: z.string(),
+    description: z.string(),
+    deadLine: z.date().optional(),
+    urgency: z.int().optional()
+
+})
+
+const updateTaskSchema = z.object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+    deadLine: z.string().optional(),
+    urgency: z.number().optional()
+    
+})
+
+export {
+    createTaskSchema,
+    updateTaskSchema
+}
