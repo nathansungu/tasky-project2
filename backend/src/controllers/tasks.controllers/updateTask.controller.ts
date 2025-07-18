@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import asyncHandler from "../../../utilities/ayncHandler";
 import { Request, Response } from "express";
-import { updateTaskSchema } from "../../../zodSchemasValidation/blogs.schem";
+import { updateTaskSchema } from "../../../zodSchemasValidation/tasks.schem";
 const client = new PrismaClient();
 
 const updateTask = asyncHandler( async(req:Request, res:Response)=>{

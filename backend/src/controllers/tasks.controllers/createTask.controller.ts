@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../../utilities/ayncHandler";
-import { createTaskSchema } from "../../../zodSchemasValidation/blogs.schem";
+import { createTaskSchema } from "../../../zodSchemasValidation/tasks.schem";
 import { PrismaClient } from "@prisma/client";
 
 const createTasks = asyncHandler(async (req: Request, res: Response) => {
