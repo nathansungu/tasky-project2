@@ -4,7 +4,8 @@ const createTaskSchema = z.object({
     title: z.string(),
     description: z.string(),
     deadLine: z.date().optional(),
-    urgency: z.int().optional()
+    urgency: z.int().optional(),
+    groupId: z.string().optional()
 
 })
 
