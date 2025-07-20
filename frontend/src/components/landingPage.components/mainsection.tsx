@@ -1,6 +1,4 @@
 import {
-  AppBar,
-  Toolbar,
   Typography,
   Button,
   Container,
@@ -9,7 +7,7 @@ import {
   Card,
   CardContent,
 } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 const features = [
   {
     title: "Organize Tasks",
@@ -25,6 +23,7 @@ const features = [
   },
 ];
 const HandleHerosection = () => {
+  const navigate = useNavigate()
   return (
     <>
       
@@ -45,6 +44,9 @@ const HandleHerosection = () => {
                 size="large"
                 color="primary"
                 sx={{ m: 2 }}
+                onClick={()=>{
+                  navigate("/register")
+                }}
               >
                 Try It Free
               </Button>
@@ -88,6 +90,9 @@ const HandleHerosection = () => {
                 variant="contained"
                 color="secondary"
                 size="large"
+                onClick={()=>{
+                  navigate("/login")
+                }}
               >
                 Create Account
               </Button>

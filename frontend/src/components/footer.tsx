@@ -14,7 +14,6 @@ const Handlefooter = () => {
       }}
     >
       <Grid container spacing={4} justifyContent="center">
-        {/* Quick Links */}
         <Grid size={{ xs: 12, sm: 4 }}>
           <Typography variant="h6" gutterBottom>
             Quick Links
@@ -35,7 +34,6 @@ const Handlefooter = () => {
           </Stack>
         </Grid>
 
-        {/* Contact */}
         <Grid size={{ xs: 12, sm: 4 }}>
           <Typography variant="h6" gutterBottom>
             Contact Us
@@ -44,7 +42,6 @@ const Handlefooter = () => {
           <Typography variant="body2">Phone: +254 758275707</Typography>
         </Grid>
 
-        {/* Social Icons (Optional) */}
         <Grid size={{ xs: 12, sm: 4 }}>
           <Typography variant="h6" gutterBottom>
             Follow Us
