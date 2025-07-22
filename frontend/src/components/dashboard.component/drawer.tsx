@@ -20,7 +20,7 @@ function HandleDrawer() {
   const { logout } = useUserStore();
 
   const logoutFc = async () => {
-    await axiosInstance.get("/auth/logout");
+    await axiosInstance.post("/auth/logout");
     logout();
     navigate("/");
   };
