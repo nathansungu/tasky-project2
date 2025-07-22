@@ -1,8 +1,22 @@
 import { PrismaClient } from "@prisma/client";
 import asyncHandler from "../../../utilities/ayncHandler";
 import { Request, Response } from "express";
-
+import undoneTasks from "../../services/groups";
+import group from "../../routes/groups.route";
 const client = new PrismaClient();
+
+type group ={
+  id: string;
+    name: string;
+    description: string;
+    createdAt: Date;
+    updatedAt: Date;
+    isDeleted: boolean;
+}
+
+interface upDatedGroup extends group {
+  undoneTasks:number
+}
 
 const getGroups = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.user!.id;
@@ -13,13 +27,18 @@ const getGroups = asyncHandler(async (req: Request, res: Response) => {
       },
     },
   });
+  //set up empty array and push new values in.
+  const updatedTasks:upDatedGroup[]=[];
 
-  if (groups.length == 0) {
-    res.status(400).json({ message: "Groups you belong to will appear here" });
-    return;
+  for (const group of groups) {
+    const undone = await undoneTasks(group.id);
+    updatedTasks.push({
+      ...group,
+      undoneTasks: undone,
+    });
   }
 
-  return res.status(200).json({ data: groups });
+  return res.status(200).json({ data: updatedTasks });
 });
 
 export default getGroups;

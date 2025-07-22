@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { Request,Response } from "express";
 import asyncHandler from "../../../utilities/ayncHandler";
-import createGroupSchema from "../../../zodSchemasValidation/group.schema";
+import {createGroupSchema} from "../../../zodSchemasValidation/group.schema";
 
 const client = new PrismaClient();
 

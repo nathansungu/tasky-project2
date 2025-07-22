@@ -1,8 +1,11 @@
 import z from "zod";
 
-const createGroupSchema = z.object({
+export const createGroupSchema = z.object({
     name: z.string(),
     description: z.string()
 })
+export const addGroupMemberSchema = z.object({
+    userId: z.string(),
+    groupId: z.string()
+})
 
-export default createGroupSchema;
