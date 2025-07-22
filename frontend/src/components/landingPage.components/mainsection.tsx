@@ -27,15 +27,15 @@ const HandleHerosection = () => {
   return (
     <>
       
-        <Grid container direction="column" sx={{width:"99%"}}>
+        <Grid container direction="column" sx={{width:"100%"}}>
           
 
           <Box sx={{ backgroundColor: "background.default", py: 8 }}>
             <Container sx={{ minHeight: "22vh" }}>
-              <Typography variant="h3" sx={{ m: 3 }}>
+              <Typography variant="h4" sx={{ m: 3 }}>
                 Stay Focused, Stay Organized
               </Typography>
-              <Typography variant="h4" color="text.secondary" sx={{ m: 1 }}>
+              <Typography variant="h5" color="text.secondary" sx={{ m: 1 }}>
                 TaskTracker helps you manage your tasks, meet deadlines, and
                 boost productivity.
               </Typography>
@@ -63,10 +63,10 @@ const HandleHerosection = () => {
                   <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                     <Card elevation={3} sx={{ height: "11rem" }}>
                       <CardContent>
-                        <Typography variant="h4" gutterBottom>
+                        <Typography variant="h5" gutterBottom>
                           {feature.title}
                         </Typography>
-                        <Typography variant="h5" color="text.secondary">
+                        <Typography variant="h6" color="text.secondary">
                           {feature.description}
                         </Typography>
                       </CardContent>
@@ -78,7 +78,7 @@ const HandleHerosection = () => {
           </Box>
 
           <Box sx={{ py: 6, backgroundColor: "primary.main", color: "white" }}>
-            <Container sx={{ height: "15rem" }}>
+            <Container sx={{ height: "10rem" }}>
               <Typography variant="h4" gutterBottom>
                 Ready to get productive?
               </Typography>

@@ -7,12 +7,14 @@ import {
   Stack,
   Avatar,
 } from "@mui/material";
+import { Dropdown, Menu, MenuButton, MenuItem } from "@mui/joy";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../../store/logedinState.store";
 import HandleDrawer from "../dashboard.component/drawer";
+import axiosInstance from "../../api/axios";
 const HandleHeader = () => {
   const navigate = useNavigate();
-  const { user } = useUserStore();
+  const { user, logout } = useUserStore();
   return (
     <Box>
       <AppBar
@@ -21,13 +23,13 @@ const HandleHeader = () => {
         sx={{ height: "5rem", justifyContent: "center" }}
       >
         <Stack direction="row" justifyContent="space-between" fontSize="bold">
-          <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              TaskTracker
-            </Typography>
+          <Stack direction="row" justifyContent="space-between" fontSize="bold">
+            <Toolbar>
+              <Typography variant="h6">TaskTracker</Typography>
+            </Toolbar>
 
             {!user && (
-              <>
+              <Toolbar>
                 <Button
                   color="inherit"
                   sx={{ ml: 2 }}
@@ -47,9 +49,9 @@ const HandleHeader = () => {
                 >
                   <Typography>Get Started</Typography>
                 </Button>
-              </>
+              </Toolbar>
             )}
-          </Toolbar>
+          </Stack>
 
           {user && (
             <>
@@ -62,21 +64,34 @@ const HandleHeader = () => {
                     color="inherit"
                     sx={{ ml: 2 }}
                     onClick={() => {
-                      navigate("/login");
+                      navigate("/dashboard");
                     }}
                   >
                     Home
                   </Button>
 
-                  <Button
-                    color="inherit"
-                    sx={{ ml: 2 }}
-                    onClick={() => {
-                      navigate("/login");
-                    }}
-                  >
-                    Tasks
-                  </Button>
+                  <Dropdown>
+                    <MenuButton variant="text" sx={{ color: "inherit" }}>
+                      Tasks
+                    </MenuButton>
+
+                    <Menu>
+                      <MenuItem>
+                        <Button
+                          color="inherit"
+                          sx={{ ml: 2 }}
+                          onClick={() => {
+                            navigate("/create-task");
+                          }}
+                        >
+                          Add Task
+                        </Button>
+                      </MenuItem>
+                      <MenuItem>trash</MenuItem>
+
+                      <MenuItem>GroupTasks</MenuItem>
+                    </Menu>
+                  </Dropdown>
 
                   <Button
                     color="inherit"
@@ -94,7 +109,7 @@ const HandleHeader = () => {
                     color="inherit"
                     sx={{ ml: 2 }}
                     onClick={() => {
-                      navigate("/login");
+                      navigate("/profile");
                     }}
                   >
                     Profile
@@ -105,8 +120,10 @@ const HandleHeader = () => {
                   <Button
                     color="inherit"
                     sx={{ ml: 2 }}
-                    onClick={() => {
-                      navigate("/login");
+                    onClick={async () => {
+                      await axiosInstance.post("/auth/logout");
+                      logout();
+                      navigate("/");
                     }}
                   >
                     Logout
