@@ -3,9 +3,6 @@ import {
   CardContent,
   Stack,
   Typography,
-  IconButton,
-  Avatar,
-  AvatarGroup,
   Chip,
   List,
   ListItem,
@@ -80,7 +77,7 @@ const GroupCard = () => {
     return message;
   };
 
-  const { mutate: toggeleTaskMutation, data } = useMutation({
+  const { mutate: toggeleTaskMutation } = useMutation({
     mutationKey: ["toggleComplete"],
     mutationFn: async (actions:{checked: boolean, idTask: string}) =>
       await toggleComplete(actions),onSuccess:()=>{

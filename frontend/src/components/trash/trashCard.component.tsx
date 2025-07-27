@@ -21,7 +21,7 @@ const HandleTrash = () => {
   const queryClient = useQueryClient()
   const fetchTrashTask = async () => {
     const response = await axiosInstance.get("/task/deleted");
-    const { data, message } = response.data!;
+    const { data} = response.data!;
     return data;
   };
   const { data, isPending } = useQuery({
