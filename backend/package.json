@@ -25,7 +25,7 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "build": "tsc",
-    "start": "node build/app.js"
+    "start": "node build/src/app.js"
   },
   "author": "",
   "license": "ISC",
