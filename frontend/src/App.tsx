@@ -1,18 +1,15 @@
-import './App.css'
-import { BrowserRouter } from 'react-router-dom'
-import HandleRouting from './routes/routes'
+import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import HandleRouting from "./routes/routes";
 
 function App() {
-  
-
   return (
     <>
-    <BrowserRouter>
-    <HandleRouting/>
-    </BrowserRouter>
-     
+      <BrowserRouter>
+        <HandleRouting />
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
