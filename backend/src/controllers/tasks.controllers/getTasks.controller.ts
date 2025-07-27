@@ -6,7 +6,7 @@ const getTasks = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.user!.id;
 
   const tasks = await client.tasks.findMany({
-    where: { userId: userId , isDeleted:false},
+    where: { userId: userId , isDeleted:false, groupId:null},
     include: {
       user: {
         select: {
@@ -15,7 +15,7 @@ const getTasks = asyncHandler(async (req: Request, res: Response) => {
         },
       },
     },
-  });
+    });
 
   if (tasks.length == 0) {
     res
