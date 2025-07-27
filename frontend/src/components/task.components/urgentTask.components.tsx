@@ -9,25 +9,19 @@ import {
   Typography,
 } from "@mui/material";
 import axiosInstance from "../../api/axios";
-import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CalendarMonth } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import toDateTime from "../../utility/dateTostringConverter";
+import calculateRemainingTime from "../../utility/remainingTimeCalculastor";
+import { IconButton } from "@mui/joy";
+import type { task } from "../../DataTypes/taskTypes";
+import { useState } from "react";
 
-type task = {
-  id: string;
-  title: string;
-  description: string;
-  urgency: string;
-  createdAt: string;
-  deadLine: string;
-  iscompleted: boolean;
-};
 const UrgentTaskCard = () => {
   const [tasks, setTasks] = useState([]);
   const [backendResponse, setBackendResponse] = useState("");
   const [CompleteStatus, setCompleteStatus] = useState("");
-  const [errorState, setErrorState] = useState(false)
 
   const navigate = useNavigate();
   const fetchUrgentTask = async () => {
@@ -82,8 +76,6 @@ const UrgentTaskCard = () => {
     mutateDeleteTask(id);
   };
 
-  //set timeout
-     
   return (
     <>
       {/* //TODO : add time out on alerts */}
@@ -147,8 +139,13 @@ const UrgentTaskCard = () => {
                     ></Switch>
                     <Typography>Done</Typography>
                   </Stack>
+                  <IconButton
+                    color="warning"
+                    onClick={() => deleteTask(task.id)}
+                  >
+                    <img src="/deleteicon.svg" />
+                  </IconButton>
 
-                  <Button onClick={() => deleteTask(task.id)}>Delete</Button>
                   <Button onClick={() => navigate(`/task-update/${task.id}`)}>
                     Update
                   </Button>
@@ -163,16 +160,39 @@ const UrgentTaskCard = () => {
                     {task.createdAt.slice(0, 10)}
                   </Stack>
 
-                  <Typography gap={1} mt={2} color="warning">
-                    DeadLine:
-                    {task.deadLine || "Not set"}
-                  </Typography>
+                  <Stack gap={1} mt={2} direction="row">
+                    <Typography color="warning">DeadLine:</Typography>
+                    <Typography color="success">
+                      {toDateTime(task.deadLine) || "Not set"}
+                    </Typography>
+                  </Stack>
+                  <Stack direction="row" sx={{ mt: 1.5 }} gap={2}>
+                    {task.deadLine && (
+                      <>
+                        <Typography color="warning">Time Left:</Typography>
+
+                        {(() => {
+                          const remainingTime = calculateRemainingTime(
+                            task.deadLine
+                          );
+                          return (
+                            <Typography color="red" fontWeight="bold">
+                              {`${remainingTime?.days}.
+                          ${remainingTime?.hours}. ${remainingTime?.minutes}. ${remainingTime?.seconds}`}
+                              {}
+                            </Typography>
+                          );
+                        })()}
+                      </>
+                    )}
+                  </Stack>
                 </Stack>
               </CardContent>
             </Card>
           </Grid>
         ))}
       </Grid>
+      
     </>
   );
 };
