@@ -12,11 +12,17 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.2.0",
+    "@mui/joy": "^5.0.0-beta.52",
     "@mui/material": "^7.2.0",
+    "@mui/x-date-pickers": "^8.9.0",
     "@tanstack/react-query": "^5.83.0",
+    "axios": "^1.10.0",
+    "dayjs": "^1.11.13",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.7.0"
+    "react-router-dom": "^7.7.0",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
@@ -30,5 +36,9 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5"
-  }
+  },
+  "main": "eslint.config.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
