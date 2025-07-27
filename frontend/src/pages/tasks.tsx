@@ -1,8 +1,8 @@
-import HandleHeader from "../components/landingPage.components/header";
+import UrgentTaskCard from "../components/task.components/urgentTask.components";
 const HandleTasks= ()=>{
     return(
         <>
-        <HandleHeader/>
+        <UrgentTaskCard/>
         
         </>
     )

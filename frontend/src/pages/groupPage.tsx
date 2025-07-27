@@ -1,8 +1,8 @@
-import HandleHeader from "../components/landingPage.components/header";
+import GroupCard from "../components/group.componets/displayGroup";
 const GroupPage = () => {
   return (
     <>
-      <HandleHeader />
+      <GroupCard/>
     </>
   );
 };

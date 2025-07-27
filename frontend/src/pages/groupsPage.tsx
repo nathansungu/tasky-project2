@@ -1,9 +1,7 @@
-import HandleHeader from "../components/landingPage.components/header";
-import HandleGroups from "../components/group.componets/display Groups";
+import HandleGroups from "../components/group.componets/displayGroups";
 const GroupsPage = ()=>{
     return(
         <>
-        <HandleHeader/>
         <HandleGroups/>
         </>
     )

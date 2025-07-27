@@ -1,10 +1,10 @@
-import UrgentTaskCard from "../components/task.components/urgentTask.components";
 import HandleHeader from "../components/landingPage.components/header";
+import { Outlet } from "react-router-dom";
 const DashboardPage = () => {
   return (
     <>
       <HandleHeader />
-      <UrgentTaskCard />
+      <Outlet/>
     </>
   );
 };
