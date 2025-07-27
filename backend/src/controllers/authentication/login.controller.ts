@@ -33,9 +33,9 @@ const login = asyncHandler(async (req: Request, res: Response) => {
   });
   res
     .cookie("authTokencodey", token, {
-      // httpOnly: true,
-      // secure: true,
-      // sameSite: "none",   
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",   
      })
 
     .json({ data:mainDetails,message: "Login sucessful" });
