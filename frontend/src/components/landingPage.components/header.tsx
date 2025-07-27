@@ -71,7 +71,7 @@ const HandleHeader = () => {
                   </Button>
 
                   <Dropdown>
-                    <MenuButton variant="text" sx={{ color: "inherit" }}>
+                    <MenuButton variant="plain" sx={{ color: "inherit" }}>
                       Tasks
                     </MenuButton>
 

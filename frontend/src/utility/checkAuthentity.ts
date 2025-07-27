@@ -19,7 +19,7 @@ const AuthChecker = () => {
     checkLogin()
   }, [setUser])
 
-  return
+  return null
 }
 
 export default AuthChecker
