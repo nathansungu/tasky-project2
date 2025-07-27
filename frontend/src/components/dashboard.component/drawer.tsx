@@ -53,15 +53,15 @@ function HandleDrawer() {
           <Divider />
           <List>
             {[
-              { name: "Home", link: "/" },
-              { name: "Tasks", link: "/tasks" },
-              { name: "Group", link: "/groups" },
-              { name: "Profile", link: "/profile" },
+              { name: "Home", link: "" },
+              {name: "Add Task", link: "create-task"},
+              { name: "Group", link: "groups" },
+              { name: "Profile", link: "profile" },
             ].map((dst, ind) => (
               <ListItem key={ind}>
                 <Button
                   onClick={() => {
-                    navigate(`/${dst.link}`);
+                    navigate(`${dst.link}`);
                   }}
                 >
                   {dst.name}
