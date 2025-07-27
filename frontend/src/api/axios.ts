@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: "https://tasky-project2.vercel.app/api",
+    baseURL: "https://tasky-project2.onrender.com",
     withCredentials:true
 }
 )
