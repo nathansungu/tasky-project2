@@ -20,7 +20,7 @@ type task = {
   description: string;
   urgency: number;
   groupId: string | undefined;
-  // deadLine: Dayjs | undefined | string;
+  deadLine: Dayjs | undefined | string;
 };
 
 const HandleCreateTask = () => {
@@ -46,10 +46,14 @@ const HandleCreateTask = () => {
       setBackedResponse(response.data!.message);
       return response.data;
     },
-    onError: (error:any)=>{
-      console.log(error.data.message)
+    onError: ()=>{
       setGroupId("")
                           
+    },
+    onSuccess: ()=>{
+      setTitle("")
+      setDescription("")
+      setUrgency(0)
     }
   });
 
@@ -59,10 +63,9 @@ const HandleCreateTask = () => {
       description,
       urgency,
       groupId,
-      // deadLine: deadLine ? deadLine.toISOString() : undefined,
+      deadLine: deadLine ? deadLine.toISOString() : undefined,
 
     };
-    console.log(groupId)
     mutate(data);
   };
   return (
