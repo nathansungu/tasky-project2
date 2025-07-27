@@ -21,6 +21,8 @@ model user {
   password String
   task tasks[]
   group groupMembers[]
+
+  @@map("users_table")
 }
 
 model tasks {
