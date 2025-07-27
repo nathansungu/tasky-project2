@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 interface User {
   firstName: string;
   secondName: string;
-  emailAddress: string;
+  email: string;
   userName: string;
   id: string;
 }
