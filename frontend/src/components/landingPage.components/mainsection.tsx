@@ -8,6 +8,7 @@ import {
   CardContent,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import useUserStore from "../../store/logedinState.store";
 const features = [
   {
     title: "Organize Tasks",
@@ -24,6 +25,10 @@ const features = [
 ];
 const HandleHerosection = () => {
   const navigate = useNavigate()
+  const {user} = useUserStore()
+  if(user){
+    navigate("/dashboard")
+  }
   return (
     <>
       
