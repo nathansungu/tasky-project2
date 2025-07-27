@@ -78,18 +78,24 @@ const HandleHeader = () => {
                     <Menu>
                       <MenuItem>
                         <Button
-                          color="inherit"
-                          sx={{ ml: 2 }}
+                          color="success"
+                          sx={{ ml: 0.5 }}
                           onClick={() => {
-                            navigate("/create-task");
+                            navigate("create-task");
                           }}
                         >
                           Add Task
                         </Button>
                       </MenuItem>
-                      <MenuItem>trash</MenuItem>
-
-                      <MenuItem>GroupTasks</MenuItem>
+                      <MenuItem>
+                        <Button
+                          sx={{ ml: 0.5 }}
+                          color="success"
+                          onClick={() => navigate("trash")}
+                        >
+                          Trash
+                        </Button>
+                      </MenuItem>
                     </Menu>
                   </Dropdown>
 
@@ -97,7 +103,7 @@ const HandleHeader = () => {
                     color="inherit"
                     sx={{ ml: 2 }}
                     onClick={() => {
-                      navigate("/groups");
+                      navigate("groups");
                     }}
                   >
                     Groups
@@ -105,29 +111,39 @@ const HandleHeader = () => {
                 </Toolbar>
 
                 <Toolbar>
-                  <Button
-                    color="inherit"
-                    sx={{ ml: 2 }}
-                    onClick={() => {
-                      navigate("/profile");
-                    }}
-                  >
-                    Profile
-                  </Button>
+                  <Dropdown>
+                   <MenuButton sx={{ color: "inherit" }}>Profile</MenuButton>
+                    <Menu>
+                      
+                      <MenuItem>
+                        <Button
+                          color="inherit"
+                          sx={{ ml: 2 }}
+                          onClick={() => {
+                            navigate("profile");
+                          }}
+                        >
+                          Setting
+                        </Button>
+                      </MenuItem>
+                      <MenuItem>
+                        <Button
+                          color="inherit"
+                          sx={{ ml: 2 }}
+                          onClick={async () => {
+                            await axiosInstance.post("/auth/logout");
+                            logout();
+                            navigate("/");
+                          }}
+                        >
+                          Logout
+                        </Button>
+                      </MenuItem>
+                    </Menu>
+                  </Dropdown>
                 </Toolbar>
                 <Toolbar>
-                  {" "}
-                  <Button
-                    color="inherit"
-                    sx={{ ml: 2 }}
-                    onClick={async () => {
-                      await axiosInstance.post("/auth/logout");
-                      logout();
-                      navigate("/");
-                    }}
-                  >
-                    Logout
-                  </Button>
+                  <Typography sx={{mr:2, textTransform:"capitalize"}}>{`Welcome, ${user.secondName}`}</Typography>
                   <Avatar
                     sx={{
                       textTransform: "uppercase",
