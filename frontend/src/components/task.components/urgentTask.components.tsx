@@ -115,7 +115,7 @@ const UrgentTaskCard = () => {
         </Stack>
       )}
       <Stack justifyItems="center" justifyContent="center" height="70vh">
-      {!tasks&& (<Typography>Your Tasks will Appear Here</Typography>)}
+      {tasks.length==0&& (<Typography>Your Tasks will Appear Here</Typography>)}
       </Stack>
       <Grid container columns={12} spacing={2} mt={4} m={1}>
         {tasks.map((task: task) => (
