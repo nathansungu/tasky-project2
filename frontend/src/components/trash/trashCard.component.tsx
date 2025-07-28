@@ -87,8 +87,7 @@ const HandleTrash = () => {
                       {task.updatedAt && (
                         <>
                           <Typography color="warning">Permanent delete in:</Typography>
-                          <CountdownDisplay deadline={task.deadLine}/>
-                          
+                          <CountdownDisplay deadline={task.deadLine}/>                          
                         </>
                       )}
                     </Stack>
