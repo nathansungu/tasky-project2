@@ -28,7 +28,7 @@ const CountdownDisplay = ({ deadline }: { deadline: string }) => {
       setRemainingTime(timeLeft);
 
       if (!timeLeft) {
-        clearInterval(interval); // Stop timer when deadline passed
+        clearInterval(interval);
       }
     }, 1000);
 
@@ -42,7 +42,7 @@ const CountdownDisplay = ({ deadline }: { deadline: string }) => {
         Deadline passed
       </Typography>}
     <Typography color="red" fontWeight="bold">
-      {`${remainingTime!.days}d ${remainingTime!.hours}h ${remainingTime!.minutes}m ${remainingTime!.seconds}s`}
+      {remainingTime&&`${remainingTime!.days} days ${remainingTime!.hours} hrs ${remainingTime!.minutes} min ${remainingTime!.seconds} sec`}
     </Typography>    
     
     </>
