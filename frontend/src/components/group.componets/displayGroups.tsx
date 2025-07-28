@@ -43,7 +43,7 @@ console.log(data)
       {data&&!data.data &&(
         <Stack sx={{ width: "100%", mt:5, alignItems: "center" }}>
           <Typography sx={{color:"black", textTransform: "capitalize", textAlign: "center", fontSize: "1.5rem" }}>
-           Your Goups Will Appear Here. Join groups or create to see them.
+           Your Goups Will Appear Here. <a href="create-group">Click Me</a>  to create group.
           </Typography>
         </Stack>
       )}
