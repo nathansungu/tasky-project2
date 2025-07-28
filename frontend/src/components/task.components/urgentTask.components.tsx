@@ -31,7 +31,7 @@ const UrgentTaskCard = () => {
     setBackendResponse(message);
     return data;
   };
-  const { isLoading, error } = useQuery({
+  const { isLoading, } = useQuery({
     queryKey: ["tasksData"],
     queryFn: fetchUrgentTask,
   });
@@ -76,27 +76,16 @@ const UrgentTaskCard = () => {
     mutateDeleteTask(id);
   };
 
-
-  
-
   return (
     <>
       {/* //TODO : add time out on alerts */}
       {!!CompleteStatus && <Alert>{CompleteStatus}</Alert>}
       {!!backendResponse && <Alert>{backendResponse}</Alert>}
-      {error && (
-        <Stack
-          sx={{ mt: "30%", justifyContent: "center", alignItems: "center" }}
-        >
-          <Typography
-            sx={{
-              textTransform: "capitalize",
-              textAlign: "center",
-              color: "red",
-              fontSize: "1.5rem",
-            }}
-          >
-            {backendResponse}
+      
+      {tasks.length == 0 && !isLoading&&(
+        <Stack sx={{ width: "100%", mt:5, alignItems: "center" }}>
+          <Typography sx={{color:"black", textTransform: "capitalize", textAlign: "center", fontSize: "1.5rem" }}>
+            Add Task to see them. Your Tasks will Appear Here
           </Typography>
         </Stack>
       )}
@@ -114,18 +103,16 @@ const UrgentTaskCard = () => {
           </Typography>
         </Stack>
       )}
-      <Stack justifyItems="center" justifyContent="center" height="70vh">
-      {tasks.length==0&& (<Typography>Your Tasks will Appear Here</Typography>)}
-      </Stack>
+
       <Grid container columns={12} spacing={2} mt={4} m={1}>
         {tasks.map((task: task) => (
           <Grid key={task.id} size={{ md: 4, sm: 6, xs: 12 }}>
             <Card sx={{ minHeight: "22rem" }}>
               <CardContent
-                sx={{ minHeight: "10rem", backgroundColor: "grey.100"}}
+                sx={{ minHeight: "10rem", backgroundColor: "grey.100" }}
               >
-                <Typography  fontSize="1.5rem">{task.title}</Typography>
-                <Typography >{task.description}</Typography>
+                <Typography fontSize="1.5rem">{task.title}</Typography>
+                <Typography>{task.description}</Typography>
               </CardContent>
               <CardContent>
                 <Stack
@@ -152,7 +139,11 @@ const UrgentTaskCard = () => {
                     <img src="/deleteicon.svg" />
                   </IconButton>
 
-                  <Button onClick={() => navigate(`/dashboard/task-update/${task.id}`)}>
+                  <Button
+                    onClick={() =>
+                      navigate(`/dashboard/task-update/${task.id}`)
+                    }
+                  >
                     Update
                   </Button>
                 </Stack>
@@ -176,9 +167,7 @@ const UrgentTaskCard = () => {
                     {task.deadLine && (
                       <>
                         <Typography color="warning">Time Left:</Typography>
-                        <CountdownDisplay deadline={task.deadLine }/>
-
-                     
+                        <CountdownDisplay deadline={task.deadLine} />
                       </>
                     )}
                   </Stack>
@@ -188,7 +177,6 @@ const UrgentTaskCard = () => {
           </Grid>
         ))}
       </Grid>
-      
     </>
   );
 };

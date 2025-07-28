@@ -2,6 +2,7 @@ import {
   Alert,
   Button,
   Grid,
+  Rating,
   Stack,
   TextField,
   Typography,
@@ -30,45 +31,41 @@ const HandleUpdateTask = () => {
   const [groupId, setGroupId] = useState<string | undefined>();
   const [backedResponse, setBackedResponse] = useState("");
   const [deadLine, setDeadline] = useState<Dayjs>();
-  const [tasks, setTask] = useState<task>();
-  const { id } = useParams<{ id: string }>();
 
+  const { id } = useParams<{ id: string }>();
   //fetch task content
   const fetchTask = async () => {
     const response = await axiosInstance.get(`/task/${id}`);
+
     const { data } = response.data;
-    setTask(data);
+    setTitle(data!.title);
+    setDescription(data!.description);
+    setUrgency(data!.urgency);
+
+    return
   };
-  useEffect(() => {
-    try {
-      fetchTask;
-      if (tasks) {
-        setTitle(tasks?.title);
-        setDescription(tasks.description);
-        setUrgency(tasks.urgency);
-        console.log(tasks)
-        // setDeadline(tasks?.deadLine)
+ useEffect(() => {
+    async function getData() {
+      try {
+        fetchTask();
+      } catch (e) {
+        setBackedResponse("Oops! Failed To Update Product");
+        alert(error);
       }
-    } catch (error) {
-        console.log(error)
-      setBackedResponse("Oops! Something went wrong");
     }
-  });
+    getData();
+  }, []);
+
 
   const { isPending, error, mutate } = useMutation({
     mutationKey: ["createTask"],
     mutationFn: async function crateTask(data: task) {
-      const response = await axiosInstance.patch("/task", data);
+      const response = await axiosInstance.patch(`/task/${id}`, data);
       setBackedResponse(response.data!.message);
       return response.data;
     },
     onError: () => {
       setGroupId("");
-    },
-    onSuccess: () => {
-      setTitle("");
-      setDescription("");
-      setUrgency(0);
     },
   });
 
@@ -114,6 +111,15 @@ const HandleUpdateTask = () => {
               />
             </LocalizationProvider>
           </Stack>
+
+          <Rating
+            sx={{ mt: 2, ml: 2, fontSize: "bold" }}
+            name="simple-controlled"
+            value={urgency}
+            onChange={(_event, newValue) => {
+              setUrgency(newValue || 0);
+            }}
+          />
 
           <Button
             type="submit"

@@ -26,26 +26,35 @@ const HandleGroups = () => {
 
   const fetchGroups = async () => {
     const response = await axiosInstance.get("/group");
-    return response.data;
+    return response.data.data;
   };
 
   const { data, isError, error, isLoading } = useQuery({
     queryKey: ["fetchTask"],
-    queryFn: fetchGroups,
-  });
+    queryFn: fetchGroups,   
+    
+  },
+  
+)
+console.log(data)
 
   return (
     <Grid container columns={12} mt={2} justifyContent={"center"} spacing={1}>
+      {data&&!data.data &&(
+        <Stack sx={{ width: "100%", mt:5, alignItems: "center" }}>
+          <Typography sx={{color:"black", textTransform: "capitalize", textAlign: "center", fontSize: "1.5rem" }}>
+           Your Goups Will Appear Here. Join groups or create to see them.
+          </Typography>
+        </Stack>
+      )}
       {isLoading && (
         <Alert severity="info">Loading Groups, please wait...</Alert>
       )}
       {isError && <Alert severity="error">{(error as Error).message}</Alert>}
       {data?.message && <Alert severity="success">{data.message}</Alert>}
-      <Stack justifyItems="center" justifyContent="center" height="70vh">
-        {!data.data && <Typography>Your Goups Will Appear Here</Typography>}
-      </Stack>
+     
 
-      {data?.data?.map((grp: group) => (
+      {data?.map((grp: group) => (
         <Grid size={{ xs: 12, sm: 10, md: 8 }} key={grp.id}>
           <Card
             elevation={1}
