@@ -173,7 +173,7 @@ const UrgentTaskCard = () => {
                     {task.deadLine && (
                       <>
                         <Typography color="warning">Time Left:</Typography>
-                        <CountdownDisplay deadline={task.deadLine as string}/>
+                        <CountdownDisplay deadline={task.deadLine }/>
 
                      
                       </>

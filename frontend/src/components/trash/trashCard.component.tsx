@@ -12,8 +12,8 @@ import {
 import type { task } from "../../DataTypes/taskTypes";
 import { CalendarMonth } from "@mui/icons-material";
 import toDateTime from "../../utility/dateTostringConverter";
-import calculateRemainingTime from "../../utility/remainingTimeCalculastor";
 import { RestoreFromTrashRounded } from "@mui/icons-material";
+import CountdownDisplay from "../../utility/remainingTimeCalculastor";
 
 
 
@@ -87,19 +87,8 @@ const HandleTrash = () => {
                       {task.updatedAt && (
                         <>
                           <Typography color="warning">Permanent delete in:</Typography>
-
-                          {(() => {
-                            const remainingTime = calculateRemainingTime(
-                              task.updatedAt
-                            );
-                            return (
-                              <Typography color="red" fontWeight="bold">
-                                {`${remainingTime?.days}.
-                          ${remainingTime?.hours}. ${remainingTime?.minutes}. ${remainingTime?.seconds}`}
-                                {}
-                              </Typography>
-                            );
-                          })()}
+                          <CountdownDisplay deadline={task.deadLine}/>
+                          
                         </>
                       )}
                     </Stack>
