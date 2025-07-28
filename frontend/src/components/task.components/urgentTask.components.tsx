@@ -13,7 +13,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { CalendarMonth } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import toDateTime from "../../utility/dateTostringConverter";
-import calculateRemainingTime from "../../utility/remainingTimeCalculastor";
+import CountdownDisplay from "../../utility/remainingTimeCalculastor";
 import { IconButton } from "@mui/joy";
 import type { task } from "../../DataTypes/taskTypes";
 import { useState } from "react";
@@ -76,6 +76,9 @@ const UrgentTaskCard = () => {
     mutateDeleteTask(id);
   };
 
+
+  
+
   return (
     <>
       {/* //TODO : add time out on alerts */}
@@ -111,12 +114,12 @@ const UrgentTaskCard = () => {
           </Typography>
         </Stack>
       )}
-      <Grid container columns={12} spacing={2} mt={4} mx={1}>
+      <Grid container columns={12} spacing={2} mt={4} m={1}>
         {tasks.map((task: task) => (
           <Grid key={task.id} size={{ md: 4, sm: 6, xs: 12 }}>
             <Card sx={{ minHeight: "22rem" }}>
               <CardContent
-                sx={{ minHeight: "10rem", backgroundColor: "grey.100" }}
+                sx={{ minHeight: "10rem", backgroundColor: "grey.100" ,p:2}}
               >
                 <Typography fontSize="1.5rem">{task.title}</Typography>
                 <Typography>{task.description}</Typography>
@@ -170,19 +173,9 @@ const UrgentTaskCard = () => {
                     {task.deadLine && (
                       <>
                         <Typography color="warning">Time Left:</Typography>
+                        <CountdownDisplay deadline={task.deadLine}/>
 
-                        {(() => {
-                          const remainingTime = calculateRemainingTime(
-                            task.deadLine
-                          );
-                          return (
-                            <Typography color="red" fontWeight="bold">
-                              {`${remainingTime?.days}.
-                          ${remainingTime?.hours}. ${remainingTime?.minutes}. ${remainingTime?.seconds}`}
-                              {}
-                            </Typography>
-                          );
-                        })()}
+                     
                       </>
                     )}
                   </Stack>
