@@ -114,6 +114,9 @@ const UrgentTaskCard = () => {
           </Typography>
         </Stack>
       )}
+      <Stack justifyItems="center" justifyContent="center" height="70vh">
+      {!tasks&& (<Typography>Your Tasks will Appear Here</Typography>)}
+      </Stack>
       <Grid container columns={12} spacing={2} mt={4} m={1}>
         {tasks.map((task: task) => (
           <Grid key={task.id} size={{ md: 4, sm: 6, xs: 12 }}>

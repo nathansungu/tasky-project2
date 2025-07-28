@@ -41,10 +41,16 @@ const HandleGroups = () => {
       )}
       {isError && <Alert severity="error">{(error as Error).message}</Alert>}
       {data?.message && <Alert severity="success">{data.message}</Alert>}
+      <Stack justifyItems="center" justifyContent="center" height="70vh">
+        {!data.data && <Typography>Your Goups Will Appear Here</Typography>}
+      </Stack>
 
       {data?.data?.map((grp: group) => (
         <Grid size={{ xs: 12, sm: 10, md: 8 }} key={grp.id}>
-          <Card elevation={1} onClick={() => navigate(`/dashboard/group/${grp.id}`)}>
+          <Card
+            elevation={1}
+            onClick={() => navigate(`/dashboard/group/${grp.id}`)}
+          >
             <CardContent>
               <Stack
                 direction="row"
