@@ -10,6 +10,7 @@ import GroupsPage from "../pages/groupsPage";
 import ProfilePage from "../pages/profile";
 import TrashPage from "../pages/trash.Page";
 import Protected from "../middleware/protectedRoute";
+import HandleUpdateTaskPage from "../pages/updateTask";
 const HandleRouting = () => {
   return (
     <Routes>
@@ -27,6 +28,7 @@ const HandleRouting = () => {
       > 
         
         <Route path="" element={<HandleTasks />} />
+        <Route path="task-update/:id" element={<HandleUpdateTaskPage/>}/>
         <Route path="create-task/:id?" element={<CreateTaskPage />} />
         <Route path="profile" element={<ProfilePage />} />
         <Route path="trash" element={<TrashPage />} />

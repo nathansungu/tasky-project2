@@ -119,10 +119,10 @@ const UrgentTaskCard = () => {
           <Grid key={task.id} size={{ md: 4, sm: 6, xs: 12 }}>
             <Card sx={{ minHeight: "22rem" }}>
               <CardContent
-                sx={{ minHeight: "10rem", backgroundColor: "grey.100" ,p:2}}
+                sx={{ minHeight: "10rem", backgroundColor: "grey.100"}}
               >
-                <Typography fontSize="1.5rem">{task.title}</Typography>
-                <Typography>{task.description}</Typography>
+                <Typography  fontSize="1.5rem">{task.title}</Typography>
+                <Typography >{task.description}</Typography>
               </CardContent>
               <CardContent>
                 <Stack
@@ -149,7 +149,7 @@ const UrgentTaskCard = () => {
                     <img src="/deleteicon.svg" />
                   </IconButton>
 
-                  <Button onClick={() => navigate(`/task-update/${task.id}`)}>
+                  <Button onClick={() => navigate(`/dashboard/task-update/${task.id}`)}>
                     Update
                   </Button>
                 </Stack>
@@ -173,7 +173,7 @@ const UrgentTaskCard = () => {
                     {task.deadLine && (
                       <>
                         <Typography color="warning">Time Left:</Typography>
-                        <CountdownDisplay deadline={task.deadLine}/>
+                        <CountdownDisplay deadline={task.deadLine as string}/>
 
                      
                       </>

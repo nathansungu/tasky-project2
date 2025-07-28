@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
-
-const CountdownDisplay = ({ deadline }: { deadline: string }) => {
+type Props = { deadline: string }
+const CountdownDisplay = ({ deadline }: Props) => {
   const calculateRemainingTime = (deadline: string) => {
     const diff = new Date(deadline).getTime() - new Date().getTime();
 
