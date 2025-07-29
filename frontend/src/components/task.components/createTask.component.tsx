@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../api/axios";
 import { Dayjs } from "dayjs";
@@ -30,6 +30,7 @@ const HandleCreateTask = () => {
   const [groupId, setGroupId] = useState<string | undefined>();
   const [backedResponse, setBackedResponse] = useState();
   const [deadLine, setDeadline] = useState<Dayjs>();
+  const [descriptionLoading, setLoading]= useState(false)
   const { id } = useParams<{ id: string}>();
   useEffect(() => {
     if (id) {
@@ -68,6 +69,18 @@ const HandleCreateTask = () => {
     };
     mutate(data);
   };
+
+  //call ai describe
+  const describeTask = async (options:{title:string, customeDescription:string})=>{
+    setLoading(true)
+    const response = await axiosInstance.post("/task/ai/describe",options)
+    setLoading(false)
+    const {data}=response.data
+    setDescription(data)
+    return data
+
+  }
+ 
   return (
     <Grid container columns={12} sx={{ mt: 3, justifyContent: "center" }}>
       <Grid size={{ xs: 12, sm: 12, md: 8 }}>
@@ -91,7 +104,19 @@ const HandleCreateTask = () => {
             rows={8}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-          />
+            
+          />    
+          <Button loading={descriptionLoading} disabled={!title} onClick={()=>{
+              let customeDescription = description
+              const options = {
+                title,
+                customeDescription
+                
+              }
+              describeTask(options)
+
+            }}>Ask Tasky AI To Describe</Button>
+          
 
           <Stack sx={{ mt: 2 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -107,6 +132,7 @@ const HandleCreateTask = () => {
             size="large"
             loading={isPending}
             onClick={addTask}
+            disabled={descriptionLoading||!title||!description}
           >
             Submit
           </Button>
