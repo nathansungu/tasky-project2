@@ -8,6 +8,7 @@ import deletedTasks from "../controllers/tasks.controllers/deletedTasks.controll
 import restoreTask from "../controllers/tasks.controllers/restoreTask.controller";
 import markComplete from "../controllers/tasks.controllers/completeTask.controller";
 import markInComplete from "../controllers/tasks.controllers/incomplete.controller";
+import getDescription from "../controllers/aicomponents/getDescription";
 const tasks = Router();
 
 tasks.post("/", createTasks);
@@ -19,6 +20,8 @@ tasks.patch("/inComplete/:id",markInComplete)
 tasks.get("/:id", getTask);
 tasks.delete("/:id", deleteTask);
 tasks.patch("/:id", updateTask);
+tasks.post("/ai/describe", getDescription)
+
 
 
 export default tasks;
