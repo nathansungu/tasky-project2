@@ -24,6 +24,7 @@ import HandleMembersDrawer from "./manageMembers";
 import { useNavigate } from "react-router-dom";
 import type { task } from "../../DataTypes/taskTypes";
 import { useQueryClient } from "@tanstack/react-query";
+import CountdownDisplay from "../../utility/remainingTimeCalculastor";
 
 const GroupCard = () => {
   const queryClient = useQueryClient();
@@ -70,8 +71,13 @@ const GroupCard = () => {
     },
   });
 
-  const toggleComplete = async (actions:{checked: boolean, idTask: string}) => {
-    const url = actions.checked ? `/task/complete/${actions.idTask}` : `/task/incomplete/${actions.idTask}`;
+  const toggleComplete = async (actions: {
+    checked: boolean;
+    idTask: string;
+  }) => {
+    const url = actions.checked
+      ? `/task/complete/${actions.idTask}`
+      : `/task/incomplete/${actions.idTask}`;
     const response = await axiosInstance.patch(url);
     const { message } = response.data;
     return message;
@@ -79,10 +85,14 @@ const GroupCard = () => {
 
   const { mutate: toggeleTaskMutation } = useMutation({
     mutationKey: ["toggleComplete"],
-    mutationFn: async (actions:{checked: boolean, idTask: string}) =>
-      await toggleComplete(actions),onSuccess:()=>{
-        queryClient.invalidateQueries({queryKey:["fetchtask"], refetchType:"active"})
-      }
+    mutationFn: async (actions: { checked: boolean; idTask: string }) =>
+      await toggleComplete(actions),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["fetchtask"],
+        refetchType: "active",
+      });
+    },
   });
   return (
     <Grid columns={12} container justifyContent={"center"}>
@@ -119,11 +129,9 @@ const GroupCard = () => {
             Add Task
           </Button>
 
-          <HandleMembersDrawer
-            directive={{ action: "remove", fetch: "members" }}
-          />
+          <HandleMembersDrawer directive="remove" />
 
-          <HandleMembersDrawer directive={{ action: "add", fetch: "user" }} />
+          <HandleMembersDrawer directive="add" />
         </Stack>
 
         <Card elevation={2} sx={{ mt: 2, height: "90vh", overflow: "scroll" }}>
@@ -147,7 +155,10 @@ const GroupCard = () => {
                     >
                       <Stack direction="row" sx={{ alignItems: "center" }}>
                         <ListItemIcon sx={{ mt: 0.5 }}>
-                          <CheckCircleOutlineIcon  sx={{color: task.iscompleted?"green":"red"}} fontSize="small" />
+                          <CheckCircleOutlineIcon
+                            sx={{ color: task.iscompleted ? "green" : "red" }}
+                            fontSize="small"
+                          />
                         </ListItemIcon>
                         <ListItemText
                           primary={
@@ -176,18 +187,18 @@ const GroupCard = () => {
                         height="5rem"
                         direction="row"
                         alignItems="center"
-                        ml={{ xs: 0.5, small: 3, md: "6%" }}
+                        ml={{ xs: 0.5, sm: 3, md: "6%" }}
                         spacing={1}
                       >
                         <Stack direction="row" alignItems="center">
                           <Typography>Pending</Typography>
                           <Switch
                             checked={task.iscompleted}
-                            onChange={(_event, checked) =>{
-                              const idTask = task.id
-                              const actions ={checked,idTask}
-                            
-                              toggeleTaskMutation(actions)
+                            onChange={(_event, checked) => {
+                              const idTask = task.id;
+                              const actions = { checked, idTask };
+
+                              toggeleTaskMutation(actions);
                             }}
                           ></Switch>
                           <Typography>Done</Typography>
@@ -196,15 +207,24 @@ const GroupCard = () => {
                           <Button onClick={() => deleteMutation(task.id)}>
                             <img src="/deleteicon.svg" />
                           </Button>{" "}
-                          <Button color="inherit" onClick={()=>navigate(`task/update`)}>update</Button>
+                          <Button
+                            color="inherit"
+                            onClick={() => navigate(`task/update`)}
+                          >
+                            update
+                          </Button>
                         </Stack>
+                      </Stack>
+                    </ListItem>
+                    <ListItem>
+                      <Stack mt={0} ml={{ xs: 0.5, sm: 3, md: "6%" }}>
+                        <CountdownDisplay deadline={task.deadLine} />
                       </Stack>
                     </ListItem>
                   </Paper>
                 ))}
               </Stack>
             </List>
-            
           </CardContent>
         </Card>
       </Grid>

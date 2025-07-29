@@ -17,7 +17,7 @@ import RemoveIcon from "@mui/icons-material/PersonRemove";
 import { useState } from "react";
 import axiosInstance from "../../api/axios";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { CalendarMonth } from "@mui/icons-material";
 import GroupIcon from "@mui/icons-material/Group";
 import AddIcon from "@mui/icons-material/PersonAdd";
@@ -35,38 +35,62 @@ type members = {
   };
 };
 type Props = {
-  directive: { fetch: string; action: string };
+  directive: string;
 };
+type addMember = { groupId: string; userId: string; };
 
 function HandleMembersDrawer({ directive }: Props) {
   const { id } = useParams<string>();
   const [bckResponse, setBckResponse] = useState("");
 
-  //fetch members
+  //fetch members or all users
   const fetchUsers = async () => {
-    const url =
-      directive.action === "remove" ? `/group/members/${id}` : `/user`;
-    const response = await axiosInstance.get(url);
-    const { data, message } = response.data;
-    setBckResponse(message);
-    return data;
+    if (directive === "add") {
+      const response = await axiosInstance.get("/user");
+      const { data, message } = response.data;
+      setBckResponse(message);
+      return data;
+    } else if (directive === "remove") {
+      const response = await axiosInstance.get(`/group/members/${id}`);
+      const { data, message } = response.data;
+      setBckResponse(message);
+      return data;
+    }
   };
-  //remove or add user
-  const manageMember = async (groupId: string) => {
-    const url =
-      directive.action === "remove"
-        ? `/group/member/${groupId}`
-        : `/group/members${groupId}`;
-    const response = await axiosInstance.patch(url);
-    const { message } = response.data;
-    setBckResponse(message);
-  };
-
   const { data, isLoading } = useQuery({
     queryKey: ["fetchMembers"],
     queryFn: fetchUsers,
   });
   console.log(data);
+
+
+  //remove or add user
+  const manageMember = async (data: addMember, ) => {
+    if (directive === "remove") {
+      const response = await axiosInstance.patch(`/group/member/${data.groupId}`);
+      const { message } = response.data;
+      return message
+      setBckResponse(message);
+    } else if (directive === "add") {
+      const response = await axiosInstance.patch(`/group/members`, data);
+      const { message } = response.data;
+      setBckResponse(message);
+      return message
+    }
+  };
+
+
+  const {data: manageUSerResponse,mutate, isPending}=useMutation({
+    mutationKey: ["manageUser"],
+    mutationFn: manageMember,
+    onSuccess: ()=>{
+      setBckResponse(manageUSerResponse)
+    },
+    onError :()=>{
+      setBckResponse(manageUSerResponse)
+    }
+  })
+  
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (inOpen: boolean) => () => {
@@ -80,17 +104,17 @@ function HandleMembersDrawer({ directive }: Props) {
           <IconButton
             onClick={toggleDrawer(true)}
             sx={{
-              color: directive.action == "add" ? "primary.main" : "error.main",
+              color: directive == "add" ? "primary.main" : "error.main",
             }}
           >
-            {directive.action === "remove" && <GroupIcon />}
-            {directive.action === "add" && <AddIcon />}
+            {directive === "remove" && <GroupIcon />}
+            {directive === "add" && <AddIcon />}
           </IconButton>
         </Stack>
       </Toolbar>
 
       <Drawer open={open} onClose={toggleDrawer(false)}>
-        <Box onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
+        <Box>
           <Divider />
 
           <List>
@@ -130,7 +154,15 @@ function HandleMembersDrawer({ directive }: Props) {
                             {dst.user.secondName}
                           </Typography>
                           {dst.role != "admin" && (
-                            <IconButton onClick={() => manageMember(dst.id)}>
+                            <IconButton loading={isPending} onClick={()=>{
+                              const userId= dst.userId
+                              const groupId = dst.groupId
+                              const data = {
+                                groupId,
+                                userId
+                              }
+                              mutate(data)
+                            }}>
                               <RemoveIcon />
                             </IconButton>
                           )}
