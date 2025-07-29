@@ -17,7 +17,8 @@ import CountdownDisplay from "../../utility/remainingTimeCalculastor";
 import { IconButton } from "@mui/joy";
 import type { task } from "../../DataTypes/taskTypes";
 import { useState } from "react";
-
+import ReactMarkdown from "react-markdown";
+import LinearProgress from "@mui/material/LinearProgress";
 const UrgentTaskCard = () => {
   const [tasks, setTasks] = useState([]);
   const [backendResponse, setBackendResponse] = useState("");
@@ -31,7 +32,7 @@ const UrgentTaskCard = () => {
     setBackendResponse(message);
     return data;
   };
-  const { isLoading, } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["tasksData"],
     queryFn: fetchUrgentTask,
   });
@@ -81,10 +82,17 @@ const UrgentTaskCard = () => {
       {/* //TODO : add time out on alerts */}
       {!!CompleteStatus && <Alert>{CompleteStatus}</Alert>}
       {!!backendResponse && <Alert>{backendResponse}</Alert>}
-      
-      {tasks.length == 0 && !isLoading&&(
-        <Stack sx={{ width: "100%", mt:5, alignItems: "center" }}>
-          <Typography sx={{color:"black", textTransform: "capitalize", textAlign: "center", fontSize: "1.5rem" }}>
+
+      {tasks.length == 0 && !isLoading && (
+        <Stack sx={{ width: "100%", mt: 5, alignItems: "center" }}>
+          <Typography
+            sx={{
+              color: "black",
+              textTransform: "capitalize",
+              textAlign: "center",
+              fontSize: "1.5rem",
+            }}
+          >
             Add Task to see them. Your Tasks will Appear Here
           </Typography>
         </Stack>
@@ -107,12 +115,14 @@ const UrgentTaskCard = () => {
       <Grid container columns={12} spacing={2} mt={4} m={1}>
         {tasks.map((task: task) => (
           <Grid key={task.id} size={{ md: 4, sm: 6, xs: 12 }}>
-            <Card sx={{ minHeight: "22rem" }}>
+            <Card sx={{ minHeight: "30rem" }}>
               <CardContent
-                sx={{ minHeight: "10rem", backgroundColor: "grey.100" }}
+                sx={{ minHeight: "15rem", backgroundColor: "grey.100" }}
               >
-                <Typography fontSize="1.5rem">{task.title}</Typography>
-                <Typography>{task.description}</Typography>
+                <Typography textTransform="capitalize" fontSize="1.5rem">{task.title}</Typography>
+                <Stack ml={2}>
+                  <ReactMarkdown>{task.description}</ReactMarkdown>
+                </Stack>
               </CardContent>
               <CardContent>
                 <Stack
@@ -152,6 +162,15 @@ const UrgentTaskCard = () => {
                   direction="column"
                   sx={{ justifyContent: "center", gap: "10%", mt: 2 }}
                 >
+                  <Stack direction="row" alignItems="center" spacing={2}  mb={2}>
+                    <Typography>Urgency</Typography>
+                    <LinearProgress
+                      variant="determinate"
+                      color="success"
+                      sx={{ width: "10rem",  }}
+                      value={(task.urgency / 5) * 100}
+                    />
+                  </Stack>
                   <Stack gap={1} alignItems="center" direction="row">
                     <CalendarMonth sx={{ backgroundColor: "grey.200" }} />
                     {task.createdAt.slice(0, 10)}

@@ -14,6 +14,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useParams } from "react-router-dom";
+import MDEditor from "@uiw/react-md-editor"
 
 type task = {
   title: string;
@@ -94,19 +95,17 @@ const HandleCreateTask = () => {
           <TextField
             label="Title"
             value={title}
+            sx={{mb:2}}
             onChange={(e) => setTitle(e.target.value)}
           />
 
-          <TextField
-            label="Description"
-            sx={{ mt: 2 }}
-            multiline
-            rows={8}
+          <MDEditor
+            
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e||"")}
             
           />    
-          <Button loading={descriptionLoading} disabled={!title} onClick={()=>{
+          <Button sx={{mt:2, color:"green",}} size="medium" variant="outlined" loading={descriptionLoading} disabled={!title} onClick={()=>{
               let customeDescription = description
               const options = {
                 title,
@@ -129,7 +128,9 @@ const HandleCreateTask = () => {
 
           <Button
             type="submit"
-            size="large"
+            size="small"
+            sx={{mt:2}}
+            variant="outlined"
             loading={isPending}
             onClick={addTask}
             disabled={descriptionLoading||!title||!description}
