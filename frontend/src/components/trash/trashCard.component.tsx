@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "../../api/axios";
 import {
   Alert,
+  Box,
   Button,
   Card,
   CardContent,
@@ -47,10 +48,11 @@ const HandleTrash = () => {
   return (
     <>
       {!data&& !isPending&&(
-        <Stack sx={{ width: "100%", mt:5, alignItems: "center" }}>
+        <Stack sx={{ width: "100%", mt:"20%", alignItems: "center" }}>
           <Typography sx={{color:"black", textTransform: "capitalize", textAlign: "center", fontSize: "1.5rem" }}>
-           Your Goups Will Appear Here. Join groups or create to see them
+           Deleted Tasks Will Appear here. 
           </Typography>
+         <Box mt="2rem" component="img" src="/deleteicon.svg" height="3rem"/>
         </Stack>
       )}
       {updateResponse && <Alert>{updateResponse}</Alert>}
