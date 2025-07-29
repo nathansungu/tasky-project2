@@ -8,15 +8,21 @@ import {
   Button,
   Grid,
   Paper,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 type userDetails = {
   firstName: string;
   secondName: string;
   email: string;
   userName: string;
+};
+type passwordData = {
+  currentPassword: string;
+  newPassword: string;
 };
 const HandleUserProfile = () => {
   const [editMode, setEditMode] = useState(false);
@@ -24,8 +30,11 @@ const HandleUserProfile = () => {
   const [secondName, setSecondName] = useState("");
   const [email, setEmailAddress] = useState("");
   const [userName, setUserName] = useState("");
+  const [editPassword, setEditPassword] = useState(false);
+  const [currentPassword, setCurrentPAssword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
-  const [error, setError] = useState( false );
+  const [error, setError] = useState(false);
   const [response, setResponse] = useState("");
 
   const { user } = useUserStore();
@@ -50,17 +59,41 @@ const HandleUserProfile = () => {
       setEditMode(false);
       setError(false);
     },
-    onError: (error:any) => {
-      const reError = error.response!.data.message 
-      setResponse(reError)
-      setError( true);
+    onError: (error: any) => {
+      const reError = error.response!.data.message;
+      setResponse(reError);
+      setError(true);
     },
+  });
+  const { mutate: passwordMutation, isPending: passIspending } = useMutation({
+    mutationKey: ["changePassword"],
+    mutationFn: async (passwordData: passwordData) => {
+      const response = await axiosInstance.patch(
+        `/user/password`,
+        passwordData
+      );
+      const { message } = response.data;
+      setResponse(message);
+
+      return response;
+    },
+    onError: (e: Error) => {
+      if (e instanceof AxiosError) {
+        setResponse(e.response?.data.message);
+        setError(true)
+        return
+      }
+    },
+    onSuccess: ()=>{
+      setCurrentPAssword("")
+      setNewPassword("")
+    }
   });
 
   const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
-    setError(false)
-    setResponse("")
+    setError(false);
+    setResponse("");
 
     const userDetails: userDetails = {
       firstName,
@@ -72,10 +105,24 @@ const HandleUserProfile = () => {
     mutate(userDetails);
   };
 
+  const handleChanePassword = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(false);
+    setResponse("");
+
+    const data: passwordData = {
+      currentPassword,
+      newPassword,
+    };
+
+    passwordMutation(data);
+  };
+
   const handelCancel = (e: React.FormEvent) => {
     e.preventDefault();
 
     setEditMode(false);
+    setEditPassword(false);
     return;
   };
 
@@ -85,77 +132,113 @@ const HandleUserProfile = () => {
       sx={{ maxWidth: 600, margin: "2rem auto", padding: 4 }}
     >
       {error && <Alert color="error">{response}</Alert>}
-      {!error&& !!response && <Alert color="success">{response}</Alert>}
+      {!error && !!response && <Alert color="success">{response}</Alert>}
       <Grid container spacing={2} alignItems="center">
         <Grid size={{ xs: 12, sm: 4 }} textAlign="center">
-          <Avatar sx={{ width: 120, height: 120, margin: "0 auto",  textTransform:"capitalize"}}>
+          <Avatar
+            sx={{
+              width: 120,
+              height: 120,
+              margin: "0 auto",
+              textTransform: "capitalize",
+            }}
+          >
             <Typography fontSize="4rem">{firstName.charAt(0)}</Typography>
             <Typography fontSize="4rem">{secondName.charAt(0)}</Typography>
-            
           </Avatar>
         </Grid>
         <Grid size={{ xs: 12, sm: 8 }}>
           <Typography variant="h5" gutterBottom>
-            {editMode ? "Edit Profile" : " Profile"}
+            {!editPassword
+              ? editMode
+                ? "Edit Profile"
+                : " Profile"
+              : "Change Password"}
           </Typography>
 
-          <Box component="form">
-            <TextField
-              margin="dense"
-              label="First Name"
-              sx={{textTransform:"capitalize"}}
-              fullWidth
-              value={firstName}
-              onChange={(e) => {
-                setFirstName(e.target.value);
-              }}
-              disabled={!editMode}
-            />
-            <TextField
-              margin="dense"
-              name="lastName"
-              label="Last Name"
-              sx={{textTransform:"capitalize"}}
-              fullWidth
-              value={secondName}
-              onChange={(e) => {
-                setSecondName(e.target.value);
-              }}
-              disabled={!editMode}
-            />
-            <TextField
-              margin="dense"
-              name="email"
-              label="Email"
-              type="email"
-              sx={{textTransform:"capitalize"}}
-              fullWidth
-              value={email}
-              onChange={(e) => {
-                setEmailAddress(e.target.value);
-              }}
-              disabled={!editMode}
-            />
-            <TextField
-              margin="dense"
-              name="username"
-              label="Username"
-              sx={{textTransform:"capitalize"}}
-              fullWidth
-              value={userName}
-              onChange={(e) => {
-                setUserName(e.target.value);
-              }}
-              disabled={!editMode}
-            />
-          </Box>
+          {!editPassword && (
+            <Box component="form">
+              <TextField
+                margin="dense"
+                label="First Name"
+                sx={{ textTransform: "capitalize" }}
+                fullWidth
+                value={firstName}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
+                disabled={!editMode}
+              />
+              <TextField
+                margin="dense"
+                name="lastName"
+                label="Last Name"
+                sx={{ textTransform: "capitalize" }}
+                fullWidth
+                value={secondName}
+                onChange={(e) => {
+                  setSecondName(e.target.value);
+                }}
+                disabled={!editMode}
+              />
+              <TextField
+                margin="dense"
+                name="email"
+                label="Email"
+                type="email"
+                sx={{ textTransform: "capitalize" }}
+                fullWidth
+                value={email}
+                onChange={(e) => {
+                  setEmailAddress(e.target.value);
+                }}
+                disabled={!editMode}
+              />
+              <TextField
+                margin="dense"
+                name="username"
+                label="Username"
+                sx={{ textTransform: "capitalize" }}
+                fullWidth
+                value={userName}
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                }}
+                disabled={!editMode}
+              />
+            </Box>
+          )}
+          {editPassword && (
+            <Box>
+              <TextField
+                margin="dense"
+                label="Current PassWord"
+                sx={{ textTransform: "capitalize" }}
+                fullWidth
+                value={currentPassword}
+                onChange={(e) => {
+                  setCurrentPAssword(e.target.value);
+                }}
+              />
+              <TextField
+                margin="dense"
+                label="NewPassword"
+                sx={{ textTransform: "capitalize" }}
+                fullWidth
+                value={newPassword}
+                onChange={(e) => {
+                  setNewPassword(e.target.value);
+                }}
+              />
+            </Box>
+          )}
 
           <Box mt={2}>
-            {editMode ? (
+            {editMode || editPassword ? (
               <>
                 <Button
-                  loading={isPending}
-                  onClick={handleUpdate}
+                  loading={isPending || passIspending}
+                  onClick={editMode ? handleUpdate : handleChanePassword}
                   variant="contained"
                   color="primary"
                   sx={{ mr: 1 }}
@@ -171,12 +254,30 @@ const HandleUserProfile = () => {
                 </Button>
               </>
             ) : (
-              <Button variant="outlined" onClick={() => {setEditMode(true)
-                setError(false);
-                 setResponse("")
-              }}>
-                Edit Profile
-              </Button>
+              <Stack direction="row" justifyContent="space-between">
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setEditMode(true);
+                    setEditPassword(false);
+                    setError(false);
+                    setResponse("");
+                  }}
+                >
+                  Edit Profile
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setEditPassword(true);
+                    setEditMode(false);
+                    setError(false);
+                    setResponse("");
+                  }}
+                >
+                  Change Password
+                </Button>
+              </Stack>
             )}
           </Box>
         </Grid>
