@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 const client = new PrismaClient()
 
 const markComplete = asyncHandler(async(req:Request, res:Response)=>{
-    const id= req.user?.id;
+    const {id}= req.params;
 
     const completeTask = await client.tasks.update({
         where:{id:id},
