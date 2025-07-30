@@ -107,7 +107,7 @@ const HandleUserProfile = () => {
       secondName,
       email,
       userName,
-      imgUrl:userProfile,
+      imgUrl: userProfile,
     };
     console.log(userDetails);
     mutate(userDetails);
@@ -172,33 +172,29 @@ const HandleUserProfile = () => {
       {!error && !!response && <Alert color="success">{response}</Alert>}
       <Grid container spacing={2} alignItems="center">
         <Grid size={{ xs: 12, sm: 4 }} textAlign="center">
-        {imgUrl&& <Box component="img" src={imgUrl} width={120} height={120} margin="0 auto" borderRadius="50%"/>}
-          {!imgUrl&&<Avatar
-            sx={{
-              width: 120,
-              height: 120,
-              margin: "0 auto",
-              textTransform: "capitalize",
-            }}
-          >
-            <Typography fontSize="4rem">{firstName.charAt(0)}</Typography>
-            <Typography fontSize="4rem">{secondName.charAt(0)}</Typography>
-          </Avatar>}
-          <Stack direction="column"mt={2} justifyContent="space-between" border="1px solid blue">
-            <Typography>Add Image</Typography>
-          <input
-            
-            name="Image"
-            type="file"
-            required
-            onChange={(e) => {
-              const file = e.target.files?.[0] || null;
-              setImg(file);
-            }}
-          />
-
-          </Stack>
-          
+          {imgUrl && (
+            <Box
+              component="img"
+              src={imgUrl}
+              width={120}
+              height={120}
+              margin="0 auto"
+              borderRadius="50%"
+            />
+          )}
+          {!imgUrl && (
+            <Avatar
+              sx={{
+                width: 120,
+                height: 120,
+                margin: "0 auto",
+                textTransform: "capitalize",
+              }}
+            >
+              <Typography fontSize="4rem">{firstName.charAt(0)}</Typography>
+              <Typography fontSize="4rem">{secondName.charAt(0)}</Typography>
+            </Avatar>
+          )}
         </Grid>
         <Grid size={{ xs: 12, sm: 8 }}>
           <Typography variant="h5" gutterBottom>
@@ -211,6 +207,25 @@ const HandleUserProfile = () => {
 
           {!editPassword && (
             <Box component="form">
+              {editMode&&<Stack
+                direction="row"
+                mt={2}
+                justifyContent="space-between"
+                border="1px solid blue"
+                p={1}
+
+              >
+                <Typography>Profile</Typography>
+                <input
+                  name="Image"
+                  type="file"
+                  required
+                  onChange={(e) => {
+                    const file = e.target.files?.[0] || null;
+                    setImg(file);
+                  }}
+                />
+              </Stack>}
               <TextField
                 margin="dense"
                 label="First Name"
