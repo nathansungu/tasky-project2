@@ -23,7 +23,7 @@ const UrgentTaskCard = () => {
   const [tasks, setTasks] = useState([]);
   const [backendResponse, setBackendResponse] = useState("");
   const [CompleteStatus, setCompleteStatus] = useState("");
-  const [hovered, setHoverd] = useState(false);
+  const [_hovered, setHoverd] = useState(false);
 
   const navigate = useNavigate();
   const fetchUrgentTask = async () => {
