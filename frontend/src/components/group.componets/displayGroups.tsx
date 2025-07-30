@@ -2,6 +2,7 @@ import {
   Alert,
   Avatar,
   Badge,
+  Box,
   Card,
   CardContent,
   Grid,
@@ -16,6 +17,7 @@ type group = {
   id: string;
   name: string;
   description: string;
+  imgUrl:string;
   createdAt: string;
   updatedAt: string;
   undoneTasks: number;
@@ -36,7 +38,6 @@ const HandleGroups = () => {
   },
   
 )
-console.log(data)
 
   return (
     <Grid container columns={12} mt={2} justifyContent={"center"} spacing={1}>
@@ -68,10 +69,11 @@ console.log(data)
                 sx={{ width: "100%" }}
               >
                 <Stack direction="row" alignItems="center" gap={1}>
-                  <Avatar sx={{ backgroundColor: "lightgreen" }}>
+                  {!grp.imgUrl&&<Avatar sx={{ backgroundColor: "lightgreen" }}>
                     {grp.name.charAt(0)}
                     {grp.name.charAt(1)}
-                  </Avatar>
+                  </Avatar>}
+                  {grp.imgUrl&&<Box width="2.5rem" height="2.5rem" borderRadius="50%" component="img" src={grp.imgUrl}/>}
 
                   <Stack>
                     <Typography sx={{ fontSize: "1.3rem" }}>

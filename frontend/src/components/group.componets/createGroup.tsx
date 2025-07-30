@@ -1,11 +1,9 @@
 import {
   Alert,
-  Box,
   Button,
   Card,
   CardContent,
   Grid,
-  Paper,
   Stack,
   TextField,
   Typography,
@@ -39,7 +37,7 @@ const CreateGroup = () => {
     },
   });
 
-  const HandleCreateGroup = async () => {
+  const handleCreateGroup = async () => {
     const cloudinaryUrl = await uploadImage();
     const data = {
       imgUrl: cloudinaryUrl,
@@ -80,42 +78,40 @@ const CreateGroup = () => {
   return (
     <Grid>
       <Card
-      sx={{ mt:3,
-        maxWidth:"sm",
-        mx:"auto",
-        elevation:4,
-        p:4,
-        borderRadius:4}}
-       
+        sx={{
+          mt: 3,
+          maxWidth: "sm",
+          mx: "auto",
+          elevation: 4,
+          p: 4,
+          borderRadius: 4,
+        }}
       >
         <CardContent>
-{data && <Alert>{data}</Alert>}
-        <Stack
-          direction="column"
-          spacing={3}
-          sx={{
-            backgroundColor: "grey.100",
-            height: "90vh",
-            alignItems: "center",
-          }}
-        >
-          <Typography variant="h5" fontWeight="bold" gutterBottom>
-            Create New Group
-          </Typography>
-          <Stack direction="row" spacing={2}>
-             <Typography>
-              Profile Picture
+          {data && <Alert>{data}</Alert>}
+          <Stack
+            direction="column"
+            spacing={3}
+            sx={{
+              backgroundColor: "grey.100",
+              height: "90vh",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5" fontWeight="bold" gutterBottom>
+              Create New Group
             </Typography>
-            <input
-              name="Image"
-              type="file"
-              required
-              onChange={(e) => {
-                const file = e.target.files?.[0] || null;
-                setImg(file);
-              }}
-            />
-           
+            <Stack direction="row" spacing={2}>
+              <Typography>Profile Picture</Typography>
+              <input
+                name="Image"
+                type="file"
+                required
+                onChange={(e) => {
+                  const file = e.target.files?.[0] || null;
+                  setImg(file);
+                }}
+              />
             </Stack>
             <TextField
               label="Name"
@@ -127,35 +123,32 @@ const CreateGroup = () => {
               helperText={!name ? "name is required" : ""}
               onChange={(e) => setName(e.target.value)}
             />
-          
 
-          <TextField
-            label="Description"
-            variant="outlined"
-            multiline
-            rows={5}
-            required
-            sx={{ width: "80%" }}
-            value={description}
-            helperText={!description ? "Description is required" : ""}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <Button
-            variant="outlined"
-            color="success"
-            size="medium"
-            loading={isPending || loading}
-            disabled={!name || !description}
-            onClick={HandleCreateGroup}
-          >
-            Create
-          </Button>
-        </Stack>
+            <TextField
+              label="Description"
+              variant="outlined"
+              multiline
+              rows={5}
+              required
+              sx={{ width: "80%" }}
+              value={description}
+              helperText={!description ? "Description is required" : ""}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <Button
+              variant="outlined"
+              color="success"
+              size="medium"
+              loading={isPending || loading}
+              disabled={!name || !description}
+              onClick={handleCreateGroup}
+            >
+              Create
+            </Button>
+          </Stack>
         </CardContent>
-        
       </Card>
-      </Grid>
-    
+    </Grid>
   );
 };
 
