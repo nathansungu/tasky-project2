@@ -106,21 +106,23 @@ const GroupCard = () => {
 
         {deleteMessage && <Alert>{deleteMessage}</Alert>}
         <Stack
-          direction="row"
-          justifyContent="space-between"
+          direction={{md:"row", sm:"column"}}spacing="auto"
           alignItems="center"
           m={2}
         >
-          <Typography variant="h5">
+          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={3}>
+             <Typography variant="h5">
             Group:{` `}
             {groupData?.name}
           </Typography>
-
           <Chip
             label={`${groupData?.undoneTasks} Tasks Pening`}
             color="error"
             size="small"
           />
+           
+
+         
 
           <Button
             sx={{ fontSize: "1.2rem" }}
@@ -129,10 +131,12 @@ const GroupCard = () => {
             {" "}
             Add Task
           </Button>
-
-          <HandleMembersDrawer directive="remove" />
-
-          <HandleMembersDrawer directive="add" />
+          </Stack>
+          
+          <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <HandleMembersDrawer directive="remove" />
+            <HandleMembersDrawer directive="add" />
+          </Stack>
         </Stack>
 
         <Card elevation={2} sx={{ mt: 2, height: "90vh", overflow: "scroll" }}>
@@ -172,52 +176,48 @@ const GroupCard = () => {
                             </Typography>
                           }
                           secondary={
-                            <ReactMarkdown
-                             
-                            >
-                              {task.description}
-                            </ReactMarkdown>
+                            <ReactMarkdown>{task.description}</ReactMarkdown>
                           }
                         />
                       </Stack>
                     </ListItem>
                     <ListItem>
-                      <Stack
-                        height="5rem"
-                        direction="row"
-                        alignItems="center"
-                        ml={{ xs: 0.5, sm: 3, md: "6%" }}
-                        spacing={1}
-                      >
-                        <Stack direction="row" alignItems="center">
-                          <Typography>Pending</Typography>
-                          <Switch
-                            checked={task.iscompleted}
-                            onChange={(_event, checked) => {
-                              const idTask = task.id;
-                              const actions = { checked, idTask };
+                      <Stack direction={{ md: "row", ms: "row", xs: "column" }}>
+                        <Stack
+                          height="5rem"
+                          direction="row"
+                          alignItems="center"
+                          ml={{ xs: 0.5, sm: 3, md: "6%" }}
+                          spacing={1}
+                        >
+                          <Stack direction="row" alignItems="center">
+                            <Typography>Pending</Typography>
+                            <Switch
+                              checked={task.iscompleted}
+                              onChange={(_event, checked) => {
+                                const idTask = task.id;
+                                const actions = { checked, idTask };
 
-                              toggeleTaskMutation(actions);
-                            }}
-                          ></Switch>
-                          <Typography>Done</Typography>
+                                toggeleTaskMutation(actions);
+                              }}
+                            ></Switch>
+                            <Typography>Done</Typography>
+                          </Stack>
+                          <Stack direction="row">
+                            <Button onClick={() => deleteMutation(task.id)}>
+                              <img src="/deleteicon.svg" />
+                            </Button>{" "}
+                            <Button
+                              color="inherit"
+                              onClick={() => navigate(`task/update`)}
+                            >
+                              update
+                            </Button>
+                          </Stack>
                         </Stack>
-                        <Stack direction="row">
-                          <Button onClick={() => deleteMutation(task.id)}>
-                            <img src="/deleteicon.svg" />
-                          </Button>{" "}
-                          <Button
-                            color="inherit"
-                            onClick={() => navigate(`task/update`)}
-                          >
-                            update
-                          </Button>
+                        <Stack ml={{ xs: 0.5, sm: 3, md: "6%" }}>
+                          <CountdownDisplay deadline={task.deadLine} />
                         </Stack>
-                      </Stack>
-                    </ListItem>
-                    <ListItem>
-                      <Stack mt={0} ml={{ xs: 0.5, sm: 3, md: "6%" }}>
-                        <CountdownDisplay deadline={task.deadLine} />
                       </Stack>
                     </ListItem>
                   </Paper>
