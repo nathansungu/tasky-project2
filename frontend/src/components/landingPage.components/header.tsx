@@ -17,7 +17,7 @@ import axiosInstance from "../../api/axios";
 import { Home } from "@mui/icons-material";
 const HandleHeader = () => {
   const navigate = useNavigate();
-  const { user, logout } = useUserStore();
+  const { user, logout, setUser } = useUserStore();
   return (
     <Box>
       <AppBar
@@ -163,6 +163,7 @@ const HandleHeader = () => {
                           onClick={async () => {
                             await axiosInstance.post("/auth/logout");
                             logout();
+                            setUser(null)
                             navigate("/");
                           }}
                         >
