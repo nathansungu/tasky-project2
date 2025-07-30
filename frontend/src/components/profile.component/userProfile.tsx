@@ -107,7 +107,7 @@ const HandleUserProfile = () => {
       secondName,
       email,
       userName,
-      imgUrl,
+      imgUrl:userProfile,
     };
     console.log(userDetails);
     mutate(userDetails);
@@ -172,7 +172,8 @@ const HandleUserProfile = () => {
       {!error && !!response && <Alert color="success">{response}</Alert>}
       <Grid container spacing={2} alignItems="center">
         <Grid size={{ xs: 12, sm: 4 }} textAlign="center">
-          <Avatar
+        {imgUrl&& <Box component="img" src={imgUrl} width={120} height={120} margin="0 auto" borderRadius="50%"/>}
+          {!imgUrl&&<Avatar
             sx={{
               width: 120,
               height: 120,
@@ -182,7 +183,7 @@ const HandleUserProfile = () => {
           >
             <Typography fontSize="4rem">{firstName.charAt(0)}</Typography>
             <Typography fontSize="4rem">{secondName.charAt(0)}</Typography>
-          </Avatar>
+          </Avatar>}
           <Stack direction="column"mt={2} justifyContent="space-between" border="1px solid blue">
             <Typography>Add Image</Typography>
           <input
@@ -290,6 +291,7 @@ const HandleUserProfile = () => {
               <>
                 <Button
                   loading={isPending || passIspending}
+                  disabled={isLoding}
                   onClick={editMode ? handleUpdate : handleChanePassword}
                   variant="contained"
                   color="primary"

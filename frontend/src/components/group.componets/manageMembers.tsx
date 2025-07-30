@@ -58,7 +58,7 @@ function HandleMembersDrawer({ directive }: Props) {
     }
   };
   const { data, isLoading } = useQuery({
-    queryKey: ["fetchMembers"],
+    queryKey: ["fetchMembers", directive, id],
     queryFn: fetchUsers,
   });
   console.log(data);
@@ -69,8 +69,9 @@ function HandleMembersDrawer({ directive }: Props) {
     if (directive === "remove") {
       const response = await axiosInstance.patch(`/group/member/${data.groupId}`);
       const { message } = response.data;
-      return message
       setBckResponse(message);
+      return message
+      
     } else if (directive === "add") {
       const response = await axiosInstance.patch(`/group/members`, data);
       const { message } = response.data;
@@ -84,9 +85,6 @@ function HandleMembersDrawer({ directive }: Props) {
     mutationKey: ["manageUser"],
     mutationFn: manageMember,
     onSuccess: ()=>{
-      setBckResponse(manageUSerResponse)
-    },
-    onError :()=>{
       setBckResponse(manageUSerResponse)
     }
   })
