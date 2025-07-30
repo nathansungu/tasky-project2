@@ -66,7 +66,7 @@ function HandleMembersDrawer({ directive }: Props) {
   const manageMember = async (data: addMember) => {
     if (directive === "remove") {
       const response = await axiosInstance.patch(
-        `/group/member/`,data
+        `/group/member`,data
       );
       const { message } = response.data;
       setBckResponse(message);
@@ -165,7 +165,6 @@ function HandleMembersDrawer({ directive }: Props) {
                                     groupId,
                                     userId,
                                   };
-                                  console.log(data);
                                   mutate(data);
                                 }
                               }}
