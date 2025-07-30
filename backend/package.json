@@ -25,7 +25,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/app.ts",
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "start": "node build/src/app.js"
   },
   "author": "",
