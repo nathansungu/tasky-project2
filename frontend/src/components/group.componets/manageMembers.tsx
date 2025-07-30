@@ -66,7 +66,7 @@ function HandleMembersDrawer({ directive }: Props) {
   const manageMember = async (data: addMember) => {
     if (directive === "remove") {
       const response = await axiosInstance.patch(
-        `/group/member/${data.groupId}`
+        `/group/member/`,data
       );
       const { message } = response.data;
       setBckResponse(message);
@@ -118,7 +118,7 @@ function HandleMembersDrawer({ directive }: Props) {
           <Divider />
 
           <List>
-            <ListItem sx={{ fontSize: "1.3rem" }}>Group Members</ListItem>
+            <ListItem sx={{ fontSize: "1.3rem" }}><Typography variant="h5">{directive==="remove"?"Group Members":"ADD Members"}</Typography></ListItem>
             {isLoading && <Alert>Loading Members. Please wait ..</Alert>}
             {bckResponse && <Alert>{bckResponse}</Alert>}
             {data?.map((dst: members) => (
@@ -137,9 +137,10 @@ function HandleMembersDrawer({ directive }: Props) {
                           {dst.user!.secondName.charAt(0)}
                         </Typography>
                       </Avatar>
-                      <Stack>
+                      <Stack >
                         <Stack
                           direction="row"
+                          justifyContent="space-between"
                           gap={1}
                           sx={{
                             textTransform: "capitalize",
@@ -157,8 +158,8 @@ function HandleMembersDrawer({ directive }: Props) {
                             <IconButton
                               loading={isPending}
                               onClick={() => {
-                                if (dst.userId) {
-                                  const userId = dst.userId;
+                                if (dst.id) {
+                                  const userId = dst.id;
                                   const groupId = id;
                                   const data = {
                                     groupId,

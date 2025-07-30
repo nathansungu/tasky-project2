@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import type { task } from "../../DataTypes/taskTypes";
 import { useQueryClient } from "@tanstack/react-query";
 import CountdownDisplay from "../../utility/remainingTimeCalculastor";
+import ReactMarkdown from "react-markdown";
 
 const GroupCard = () => {
   const queryClient = useQueryClient();
@@ -171,13 +172,11 @@ const GroupCard = () => {
                             </Typography>
                           }
                           secondary={
-                            <Typography
-                              mt=".5rem"
-                              variant="body2"
-                              color="text.secondary"
+                            <ReactMarkdown
+                             
                             >
                               {task.description}
-                            </Typography>
+                            </ReactMarkdown>
                           }
                         />
                       </Stack>
