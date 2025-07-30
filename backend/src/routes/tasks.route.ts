@@ -9,6 +9,7 @@ import restoreTask from "../controllers/tasks.controllers/restoreTask.controller
 import markComplete from "../controllers/tasks.controllers/completeTask.controller";
 import markInComplete from "../controllers/tasks.controllers/incomplete.controller";
 import getDescription from "../controllers/aicomponents/getDescription";
+import getCompleteTasks from "../controllers/tasks.controllers/getCompleteTasks.controller";
 const tasks = Router();
 
 tasks.post("/", createTasks);
@@ -21,6 +22,7 @@ tasks.get("/:id", getTask);
 tasks.delete("/:id", deleteTask);
 tasks.patch("/:id", updateTask);
 tasks.post("/ai/describe", getDescription)
+tasks.get("/complete", getCompleteTasks)
 
 
 
