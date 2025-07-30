@@ -3,7 +3,7 @@ import asyncHandler from "../../../utilities/ayncHandler";
 import { Request, Response } from "express";
 const client = new PrismaClient();
 const removeUser = asyncHandler(async (req: Request, res: Response) => {
-  const data = req.params;
+  const data = req.body;
   const user = await client.groupMembers.update({
     where: { id: data.groupId, userId: data.userId },
     data: { isDeleted: true },

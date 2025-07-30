@@ -14,6 +14,6 @@ group.get("/members/:id", getMembers);
 group.get("/:id", getGroup);
 group.get("/tasks/:groupId", groupTasks);
 group.patch("/members", addMember);
-group.patch("/member/:id", removeUser)
+group.patch("/member", removeUser)
 
 export default group;
