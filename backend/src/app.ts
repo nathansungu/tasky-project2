@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://tasky-project2.vercel.app",
+    origin: ["https://tasky-project2.vercel.app","http://localhost:5173"],
     credentials: true,
   })
 );
