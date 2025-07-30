@@ -18,6 +18,7 @@ const updateProfileSchema = z.object({
   secondName: z.string().optional(),
   userName: z.string().optional(),
   email: z.string().optional(),
+  imgUrl: z.string().optional()
 });
 
 const changePasssword = z.object({

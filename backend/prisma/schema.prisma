@@ -18,6 +18,7 @@ model user {
   isDeleted Boolean @default(false)
   createAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt
+  imgUrl String?
   password String
   task tasks[]
   group groupMembers[]
