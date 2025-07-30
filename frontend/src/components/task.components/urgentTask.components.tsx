@@ -23,6 +23,7 @@ const UrgentTaskCard = () => {
   const [tasks, setTasks] = useState([]);
   const [backendResponse, setBackendResponse] = useState("");
   const [CompleteStatus, setCompleteStatus] = useState("");
+  const [hovered, setHoverd] = useState(false);
 
   const navigate = useNavigate();
   const fetchUrgentTask = async () => {
@@ -115,11 +116,19 @@ const UrgentTaskCard = () => {
       <Grid container columns={12} spacing={2} mt={4} m={1}>
         {tasks.map((task: task) => (
           <Grid key={task.id} size={{ md: 4, sm: 6, xs: 12 }}>
-            <Card sx={{ minHeight: "30rem" }}>
+            <Card
+              onMouseEnter={() => setHoverd(true)}
+              onMouseLeave={() => setHoverd(false)}
+              sx={{
+                minHeight: "30rem",
+              }}
+            >
               <CardContent
                 sx={{ minHeight: "15rem", backgroundColor: "grey.100" }}
               >
-                <Typography textTransform="capitalize" fontSize="1.5rem">{task.title}</Typography>
+                <Typography textTransform="capitalize" fontSize="1.5rem">
+                  {task.title}
+                </Typography>
                 <Stack ml={2}>
                   <ReactMarkdown>{task.description}</ReactMarkdown>
                 </Stack>
@@ -162,12 +171,12 @@ const UrgentTaskCard = () => {
                   direction="column"
                   sx={{ justifyContent: "center", gap: "10%", mt: 2 }}
                 >
-                  <Stack direction="row" alignItems="center" spacing={2}  mb={2}>
+                  <Stack direction="row" alignItems="center" spacing={2} mb={2}>
                     <Typography>Urgency</Typography>
                     <LinearProgress
                       variant="determinate"
                       color="success"
-                      sx={{ width: "10rem",  }}
+                      sx={{ width: "10rem" }}
                       value={(task.urgency / 5) * 100}
                     />
                   </Stack>

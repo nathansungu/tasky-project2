@@ -35,7 +35,7 @@ const HandleHeader = () => {
               <Toolbar>
                 <Button
                   color="inherit"
-                  sx={{ ml: 2 }}
+                 sx={{ml:{xs:1, sm:2, md:2}}} 
                   onClick={() => {
                     navigate("/login");
                   }}
@@ -45,7 +45,7 @@ const HandleHeader = () => {
                 <Button
                   color="secondary"
                   variant="contained"
-                  sx={{ marginX: 2 }}
+                  sx={{ marginX: {xs:1, sm:2, md:2}}}
                   onClick={() => {
                     navigate("/register");
                   }}

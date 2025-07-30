@@ -37,7 +37,7 @@ type members = {
 type Props = {
   directive: string;
 };
-type addMember = { groupId: string; userId: string; };
+type addMember = { groupId: string|undefined; userId: string };
 
 function HandleMembersDrawer({ directive }: Props) {
   const { id } = useParams<string>();
@@ -61,34 +61,36 @@ function HandleMembersDrawer({ directive }: Props) {
     queryKey: ["fetchMembers", directive, id],
     queryFn: fetchUsers,
   });
-  console.log(data);
-
 
   //remove or add user
-  const manageMember = async (data: addMember, ) => {
+  const manageMember = async (data: addMember) => {
     if (directive === "remove") {
-      const response = await axiosInstance.patch(`/group/member/${data.groupId}`);
+      const response = await axiosInstance.patch(
+        `/group/member/${data.groupId}`
+      );
       const { message } = response.data;
       setBckResponse(message);
-      return message
-      
+      return message;
     } else if (directive === "add") {
       const response = await axiosInstance.patch(`/group/members`, data);
       const { message } = response.data;
       setBckResponse(message);
-      return message
+      return message;
     }
   };
 
-
-  const {data: manageUSerResponse,mutate, isPending}=useMutation({
+  const {
+    data: manageUSerResponse,
+    mutate,
+    isPending,
+  } = useMutation({
     mutationKey: ["manageUser"],
     mutationFn: manageMember,
-    onSuccess: ()=>{
-      setBckResponse(manageUSerResponse)
-    }
-  })
-  
+    onSuccess: () => {
+      setBckResponse(manageUSerResponse);
+    },
+  });
+
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (inOpen: boolean) => () => {
@@ -152,16 +154,26 @@ function HandleMembersDrawer({ directive }: Props) {
                             {dst.user.secondName}
                           </Typography>
                           {dst.role != "admin" && (
-                            <IconButton loading={isPending} onClick={()=>{
-                              const userId= dst.userId
-                              const groupId = dst.groupId
-                              const data = {
-                                groupId,
-                                userId
-                              }
-                              mutate(data)
-                            }}>
-                              {directive&& directive==="add"?<AddIcon/>:<RemoveIcon/>}
+                            <IconButton
+                              loading={isPending}
+                              onClick={() => {
+                                if (dst.userId) {
+                                  const userId = dst.userId;
+                                  const groupId = id;
+                                  const data = {
+                                    groupId,
+                                    userId,
+                                  };
+                                  console.log(data);
+                                  mutate(data);
+                                }
+                              }}
+                            >
+                              {directive && directive === "add" ? (
+                                <AddIcon />
+                              ) : (
+                                <RemoveIcon />
+                              )}
                             </IconButton>
                           )}
                         </Stack>
