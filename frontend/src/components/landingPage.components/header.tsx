@@ -6,12 +6,15 @@ import {
   Button,
   Stack,
   Avatar,
+  IconButton,
 } from "@mui/material";
+import { Person2 } from "@mui/icons-material";
 import { Dropdown, Menu, MenuButton, MenuItem } from "@mui/joy";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../../store/logedinState.store";
 import HandleDrawer from "../dashboard.component/drawer";
 import axiosInstance from "../../api/axios";
+import { Home } from "@mui/icons-material";
 const HandleHeader = () => {
   const navigate = useNavigate();
   const { user, logout } = useUserStore();
@@ -25,7 +28,7 @@ const HandleHeader = () => {
         <Stack direction="row" justifyContent="space-between" fontSize="bold">
           <Stack direction="row" justifyContent="space-between" fontSize="bold">
             <Toolbar>
-              <Typography variant="h6">TaskTracker</Typography>
+              <Stack spacing={2} direction="row" ><Box width="2.5rem" height="2.5rem"borderRadius="50%" component="img" src="/logo.png"/><Typography fontStyle="oblique" variant="h5">TaskTracker</Typography></Stack>
             </Toolbar>
 
             {!user && (
@@ -47,7 +50,7 @@ const HandleHeader = () => {
                     navigate("/register");
                   }}
                 >
-                  <Typography>Get Started</Typography>
+                  <Typography>Sign UP</Typography>
                 </Button>
               </Toolbar>
             )}
@@ -60,19 +63,30 @@ const HandleHeader = () => {
                 sx={{ display: { xs: "none", sm: "flex", md: "flex" } }}
               >
                 <Toolbar>
-                  <Button
+                  <IconButton
                     color="inherit"
                     sx={{ ml: 2 }}
                     onClick={() => {
                       navigate("/dashboard");
                     }}
                   >
-                    Home
-                  </Button>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <Home /> <Typography>HOME</Typography>
+                    </Stack>
+                  </IconButton>
 
                   <Dropdown>
-                    <MenuButton variant="plain" sx={{ color: "inherit" }}>
-                      Tasks
+                    <MenuButton
+                      variant="plain"
+                      sx={{ color: "inherit", gap: 1 }}
+                    >
+                      <Box
+                        width="2rem"
+                        height="2rem"
+                        component="img"
+                        src="/to-do-list.png"
+                      />
+                      <Typography fontWeight={300}>TASKS</Typography>
                     </MenuButton>
 
                     <Menu>
@@ -96,6 +110,15 @@ const HandleHeader = () => {
                           Trash
                         </Button>
                       </MenuItem>
+                      <MenuItem>
+                        <Button
+                          sx={{ ml: 0.5 }}
+                          color="success"
+                          onClick={() => navigate("task/complete")}
+                        >
+                          Completed
+                        </Button>
+                      </MenuItem>
                     </Menu>
                   </Dropdown>
 
@@ -106,15 +129,22 @@ const HandleHeader = () => {
                       navigate("groups");
                     }}
                   >
-                    Groups
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <Box
+                        width="2rem"
+                        height="2rem"
+                        component="img"
+                        src="/collaboration.png"
+                      />{" "}
+                      <Typography>Groups</Typography>
+                    </Stack>
                   </Button>
                 </Toolbar>
 
                 <Toolbar>
                   <Dropdown>
-                   <MenuButton sx={{ color: "inherit" }}>Profile</MenuButton>
+                    <MenuButton variant="plain" sx={{ color: "inherit" }}><Stack direction="row" spacing={1}><Person2 color="warning"/><Typography>PROFILE</Typography></Stack></MenuButton>
                     <Menu>
-                      
                       <MenuItem>
                         <Button
                           color="inherit"
@@ -143,8 +173,10 @@ const HandleHeader = () => {
                   </Dropdown>
                 </Toolbar>
                 <Toolbar>
-                  <Typography sx={{mr:2, textTransform:"capitalize"}}>{`Welcome, ${user.secondName}`}</Typography>
-                  <Avatar
+                  <Typography
+                    sx={{ mr: 2, textTransform: "capitalize" }}
+                  >{`Welcome, ${user.secondName}`}</Typography>
+                  {!user.imgUrl&&<Avatar
                     sx={{
                       textTransform: "uppercase",
                       backgroundColor: "green",
@@ -152,7 +184,9 @@ const HandleHeader = () => {
                   >
                     {user.firstName.charAt(0)}
                     {user.secondName.charAt(0)}
-                  </Avatar>
+                  </Avatar>}
+
+                  {user.imgUrl&&<Box width={120} height={120} borderRadius="50%"/>}
                 </Toolbar>
               </Stack>
               <Stack sx={{ display: { xs: "flex", sm: "none", md: "none" } }}>
