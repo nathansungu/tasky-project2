@@ -14,11 +14,13 @@ import {
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import axios from "../../api/axios";
 type userDetails = {
   firstName: string;
   secondName: string;
   email: string;
   userName: string;
+  imgUrl: string;
 };
 type passwordData = {
   currentPassword: string;
@@ -33,6 +35,9 @@ const HandleUserProfile = () => {
   const [editPassword, setEditPassword] = useState(false);
   const [currentPassword, setCurrentPAssword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
+  const [img, setImg] = useState<File | null>(null);
+  const [isLoding, setIsloading] = useState(false);
 
   const [error, setError] = useState(false);
   const [response, setResponse] = useState("");
@@ -45,6 +50,7 @@ const HandleUserProfile = () => {
       setSecondName(user.secondName);
       setEmailAddress(user.email);
       setUserName(user.userName);
+      setImgUrl(user.imgUrl);
     }
   }, [user]);
   const { isPending, mutate } = useMutation({
@@ -80,28 +86,30 @@ const HandleUserProfile = () => {
     onError: (e: Error) => {
       if (e instanceof AxiosError) {
         setResponse(e.response?.data.message);
-        setError(true)
-        return
+        setError(true);
+        return;
       }
     },
-    onSuccess: ()=>{
-      setCurrentPAssword("")
-      setNewPassword("")
-    }
+    onSuccess: () => {
+      setCurrentPAssword("");
+      setNewPassword("");
+    },
   });
 
-  const handleUpdate = (e: React.FormEvent) => {
+  const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(false);
     setResponse("");
-
+    const userProfile = await uploadImage();
+    userProfile && setImgUrl(userProfile);
     const userDetails: userDetails = {
       firstName,
       secondName,
       email,
       userName,
+      imgUrl,
     };
-
+    console.log(userDetails);
     mutate(userDetails);
   };
 
@@ -126,6 +134,35 @@ const HandleUserProfile = () => {
     return;
   };
 
+  const uploadImage = async () => {
+    if (!img) {
+      return null;
+    }
+    console.log(img);
+    const formData = new FormData();
+    formData.append("file", img);
+    formData.append("upload_preset", "codeyblogs");
+
+    try {
+      setIsloading(true);
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dgmbv5dfg/image/upload",
+
+        formData,
+        {
+          withCredentials: false,
+        }
+      );
+      const url = response.data.secure_url;
+
+      setIsloading(false);
+      return url;
+    } catch (error) {
+      setIsloading(false);
+      return null;
+    }
+  };
+
   return (
     <Paper
       elevation={3}
@@ -146,6 +183,21 @@ const HandleUserProfile = () => {
             <Typography fontSize="4rem">{firstName.charAt(0)}</Typography>
             <Typography fontSize="4rem">{secondName.charAt(0)}</Typography>
           </Avatar>
+          <Stack direction="column"mt={2} justifyContent="space-between" border="1px solid blue">
+            <Typography>Add Image</Typography>
+          <input
+            
+            name="Image"
+            type="file"
+            required
+            onChange={(e) => {
+              const file = e.target.files?.[0] || null;
+              setImg(file);
+            }}
+          />
+
+          </Stack>
+          
         </Grid>
         <Grid size={{ xs: 12, sm: 8 }}>
           <Typography variant="h5" gutterBottom>

@@ -6,6 +6,7 @@ interface User {
   email: string;
   userName: string;
   id: string;
+  imgUrl:string;
 }
 
 interface UserStore {
