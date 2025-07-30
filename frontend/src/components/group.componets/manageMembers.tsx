@@ -161,7 +161,7 @@ function HandleMembersDrawer({ directive }: Props) {
                               }
                               mutate(data)
                             }}>
-                              <RemoveIcon />
+                              {directive&& directive==="add"?<AddIcon/>:<RemoveIcon/>}
                             </IconButton>
                           )}
                         </Stack>
