@@ -280,6 +280,7 @@ const HandleUserProfile = () => {
             <Box>
               <TextField
                 margin="dense"
+                type="password"
                 label="Current PassWord"
                 sx={{ textTransform: "capitalize" }}
                 fullWidth

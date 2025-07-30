@@ -60,7 +60,7 @@ const HandleHeader = () => {
             <>
               <Stack
                 direction="row"
-                sx={{ display: { xs: "none", sm: "flex", md: "flex" } }}
+                sx={{ display: { xs: "none", sm: "none", md: "flex" } }}
               >
                 <Toolbar>
                   <IconButton
@@ -187,10 +187,10 @@ const HandleHeader = () => {
                     {user.secondName.charAt(0)}
                   </Avatar>}
 
-                  {user.imgUrl&&<Box width={120} height={120} borderRadius="50%"/>}
+                  {user.imgUrl&&<Box component="img" src={user.imgUrl}width="2.5rem" height="2.5rem" borderRadius="50%"/>}
                 </Toolbar>
               </Stack>
-              <Stack sx={{ display: { xs: "flex", sm: "none", md: "none" } }}>
+              <Stack sx={{ display: { xs: "flex", sm: "flex", md: "none" } }}>
                 <Toolbar>
                   <HandleDrawer />
                 </Toolbar>
