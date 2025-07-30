@@ -15,6 +15,7 @@ const tasks = Router();
 tasks.post("/", createTasks);
 tasks.get("/", getTasks);
 tasks.get("/deleted", deletedTasks);
+tasks.get("/complete", getCompleteTasks)
 tasks.patch("/restore/:id",restoreTask)
 tasks.patch("/complete/:id", markComplete)
 tasks.patch("/inComplete/:id",markInComplete)
@@ -22,7 +23,7 @@ tasks.get("/:id", getTask);
 tasks.delete("/:id", deleteTask);
 tasks.patch("/:id", updateTask);
 tasks.post("/ai/describe", getDescription)
-tasks.get("/complete", getCompleteTasks)
+
 
 
 
