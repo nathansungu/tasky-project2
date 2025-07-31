@@ -209,7 +209,7 @@ const GroupCard = () => {
                             </Button>{" "}
                             <Button
                               color="inherit"
-                              onClick={() => navigate(`task/update`)}
+                              onClick={() => navigate(`task-update/${task.id}`)}
                             >
                               update
                             </Button>
