@@ -1,5 +1,6 @@
 import {
   Alert,
+  Box,
   Button,
   Grid,
   Rating,
@@ -32,6 +33,7 @@ const HandleUpdateTask = () => {
   const [groupId, setGroupId] = useState<string | undefined>();
   const [backedResponse, setBackedResponse] = useState("");
   const [deadLine, setDeadline] = useState<Dayjs>();
+  const [previewMode , setPreviewMode ]= useState(false)
 
   const { id } = useParams<{ id: string }>();
   //fetch task content
@@ -96,11 +98,31 @@ const HandleUpdateTask = () => {
             onChange={(e) => setTitle(e.target.value)}
           />
 
-          <MDEditor
-            value={description}
-            onChange={(e) => setDescription(e|| "")}
-          />
-
+          {!previewMode && (
+            <MDEditor
+              value={description}
+              onChange={(e) => setDescription(e || "")}
+              preview="edit"
+            />
+          )}
+          {previewMode && (
+            <Box
+              mt={2}
+              p={2}
+              sx={{ border: "1px solid #ccc", borderRadius: "8px", minHeight:"8rem"}}
+            >
+              <MDEditor.Markdown source={description || ""} />
+            </Box>
+          )}
+          <Button
+              color="success"
+              variant="outlined"
+              onClick={() => setPreviewMode(!previewMode)}
+              sx={{mt:2}}
+            >
+              {" "}
+              Preview
+            </Button>
           <Stack sx={{ mt: 2 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
