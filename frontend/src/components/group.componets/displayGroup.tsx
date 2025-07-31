@@ -115,11 +115,11 @@ const GroupCard = () => {
             Group:{` `}
             {groupData?.name}
           </Typography>
-          <Chip
+          {groupData&&<Chip
             label={`${groupData?.undoneTasks} Tasks Pening`}
             color="error"
             size="small"
-          />
+          />}
            
 
          
