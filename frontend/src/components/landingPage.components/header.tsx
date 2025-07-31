@@ -28,14 +28,25 @@ const HandleHeader = () => {
         <Stack direction="row" justifyContent="space-between" fontSize="bold">
           <Stack direction="row" justifyContent="space-between" fontSize="bold">
             <Toolbar>
-              <Stack spacing={2} direction="row" ><Box width="2.5rem" height="2.5rem"borderRadius="50%" component="img" src="/logo.png"/><Typography fontStyle="oblique" variant="h5">TaskTracker</Typography></Stack>
+              <Stack spacing={.4} direction="row">
+                <Box
+                  width="2.5rem"
+                  height="2.5rem"
+                  borderRadius="50%"
+                  component="img"
+                  src="/logo.png"
+                />
+                <Typography fontStyle="oblique" variant="h5">
+                  TaskTracker
+                </Typography>
+              </Stack>
             </Toolbar>
 
             {!user && (
               <Toolbar>
                 <Button
                   color="inherit"
-                 sx={{ml:{xs:.2, sm:2, md:2}}} 
+                  sx={{ ml: { xs: 0.2, sm: 2, md: 2 } }}
                   onClick={() => {
                     navigate("/login");
                   }}
@@ -45,7 +56,7 @@ const HandleHeader = () => {
                 <Button
                   color="secondary"
                   variant="contained"
-                  sx={{ marginX: {xs:.2, sm:2, md:2}}}
+                  sx={{ marginX: { xs: 0.2, sm: 2, md: 2 } }}
                   onClick={() => {
                     navigate("/register");
                   }}
@@ -143,7 +154,12 @@ const HandleHeader = () => {
 
                 <Toolbar>
                   <Dropdown>
-                    <MenuButton variant="plain" sx={{ color: "inherit" }}><Stack direction="row" spacing={1}><Person2 color="warning"/><Typography>PROFILE</Typography></Stack></MenuButton>
+                    <MenuButton variant="plain" sx={{ color: "inherit" }}>
+                      <Stack direction="row" spacing={1}>
+                        <Person2 color="warning" />
+                        <Typography>PROFILE</Typography>
+                      </Stack>
+                    </MenuButton>
                     <Menu>
                       <MenuItem>
                         <Button
@@ -163,7 +179,7 @@ const HandleHeader = () => {
                           onClick={async () => {
                             await axiosInstance.post("/auth/logout");
                             logout();
-                            setUser(null)
+                            setUser(null);
                             navigate("/");
                           }}
                         >
@@ -177,17 +193,27 @@ const HandleHeader = () => {
                   <Typography
                     sx={{ mr: 2, textTransform: "capitalize" }}
                   >{`Welcome, ${user.secondName}`}</Typography>
-                  {!user.imgUrl&&<Avatar
-                    sx={{
-                      textTransform: "uppercase",
-                      backgroundColor: "green",
-                    }}
-                  >
-                    {user.firstName.charAt(0)}
-                    {user.secondName.charAt(0)}
-                  </Avatar>}
+                  {!user.imgUrl && (
+                    <Avatar
+                      sx={{
+                        textTransform: "uppercase",
+                        backgroundColor: "green",
+                      }}
+                    >
+                      {user.firstName.charAt(0)}
+                      {user.secondName.charAt(0)}
+                    </Avatar>
+                  )}
 
-                  {user.imgUrl&&<Box component="img" src={user.imgUrl}width="2.5rem" height="2.5rem" borderRadius="50%"/>}
+                  {user.imgUrl && (
+                    <Box
+                      component="img"
+                      src={user.imgUrl}
+                      width="2.5rem"
+                      height="2.5rem"
+                      borderRadius="50%"
+                    />
+                  )}
                 </Toolbar>
               </Stack>
               <Stack sx={{ display: { xs: "flex", sm: "flex", md: "none" } }}>
