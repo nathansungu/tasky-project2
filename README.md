@@ -45,9 +45,7 @@ Prisma ORM – Elegant database access with type safety
 PostgreSQL – Relational database for data persistence
 
 📁 Project Structure
-bash
-Copy
-Edit
+```bash
 tasky/
 ├── client/       # React Frontend
 │   ├── components/
@@ -62,6 +60,7 @@ tasky/
 ├── prisma/       # Prisma schema and migrations
 ├── .env
 └── README.md
+```
 
 
 💡 Getting Started
