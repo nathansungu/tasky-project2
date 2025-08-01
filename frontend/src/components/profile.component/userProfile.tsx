@@ -306,7 +306,7 @@ const HandleUserProfile = () => {
             {editMode || editPassword ? (
               <>
                 <Button
-                  loading={isPending || passIspending}
+                  loading={isPending || passIspending||isLoding}
                   disabled={isLoding}
                   onClick={editMode ? handleUpdate : handleChanePassword}
                   variant="contained"
