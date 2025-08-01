@@ -102,38 +102,51 @@ const GroupCard = () => {
           (isLoading && (
             <Alert severity="info">Loading Group Details, please wait...</Alert>
           ))}
-        {bckResponse && <Alert severity="error">{bckResponse}</Alert>}
+        {bckResponse && (
+          <Stack height="30vh" justifyContent="center" alignItems="center">
+            <Alert severity="error">{bckResponse}</Alert>
+          </Stack>
+        )}
 
         {deleteMessage && <Alert>{deleteMessage}</Alert>}
         <Stack
-          direction={{md:"row", sm:"column"}}spacing="auto"
+          direction={{ md: "row", sm: "column" }}
+          spacing="auto"
           alignItems="center"
           m={2}
         >
-          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={3}>
-             <Typography variant="h5">
-            Group:{` `}
-            {groupData?.name}
-          </Typography>
-          {groupData&&<Chip
-            label={`${groupData?.undoneTasks} Tasks Pening`}
-            color="error"
-            size="small"
-          />}
-           
-
-         
-
-          <Button
-            sx={{ fontSize: "1.2rem" }}
-            onClick={() => navigate(`/dashboard/create-task/${id}`)}
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            spacing={3}
           >
-            {" "}
-            Add Task
-          </Button>
+            <Typography textTransform="capitalize" variant="h5">
+              Group:{` `}
+              {groupData?.name}
+            </Typography>
+            {groupData && (
+              <Chip
+                label={`${groupData?.undoneTasks} Tasks Pening`}
+                color="error"
+                size="small"
+              />
+            )}
+
+            <Button
+              sx={{ fontSize: "1.2rem" }}
+              onClick={() => navigate(`/dashboard/create-task/${id}`)}
+            >
+              {" "}
+              Add Task
+            </Button>
           </Stack>
-          
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
+
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <HandleMembersDrawer directive="remove" />
             <HandleMembersDrawer directive="add" />
           </Stack>
@@ -142,7 +155,7 @@ const GroupCard = () => {
         <Card elevation={2} sx={{ mt: 2, height: "90vh", overflow: "scroll" }}>
           <CardContent>
             <Typography sx={{ fontStyle: "italic", mb: 2 }}>
-              {groupData?.description.slice(0, 50)}
+              {groupData?.description.slice(0, 50)}...
             </Typography>
             {tasksData?.message ||
               (groupData?.message && (

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import axiosInstance from "../../api/axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { IconButton } from "@mui/joy";
+import { Box, IconButton } from "@mui/joy";
 import type { task } from "../../DataTypes/taskTypes";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -76,7 +76,16 @@ const HandleCompletedTasks = () => {
       {!!backendResponse && <Alert>{backendResponse}</Alert>}
 
       {tasks.length == 0 && !isLoading && (
-        <Stack sx={{ width: "100%", mt: 5, alignItems: "center" }}>
+        <Stack
+          direction="column"
+          sx={{
+            width: "100%",
+            mt: 5,
+            alignItems: "center",
+            justifyContent: "center",
+            height: "60vh",
+          }}
+        >
           <Typography
             sx={{
               color: "black",
@@ -85,8 +94,15 @@ const HandleCompletedTasks = () => {
               fontSize: "1.5rem",
             }}
           >
-            Add Task to see them. Your Tasks will Appear Here
+            You don't have complete tasks yet.{" "}
+            Mark Tasks as Done to see them.
           </Typography>
+          <Box
+            width="4rem"
+            height="4rem"
+            component="img"
+            src="/empty box.png"
+          />
         </Stack>
       )}
       {isLoading && (
