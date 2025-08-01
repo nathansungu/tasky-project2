@@ -33,7 +33,6 @@ const CreateGroup = () => {
     mutationKey: ["createGroup"],
     mutationFn: createGroup,
     onSuccess: async(responseData) => {
-      console.log(responseData)
       if(responseData){
       await navigate(`/dashboard/group/${responseData?.data}`)}
       setDescription(""); 
