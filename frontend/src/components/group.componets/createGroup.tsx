@@ -33,7 +33,7 @@ const CreateGroup = () => {
     mutationKey: ["createGroup"],
     mutationFn: createGroup,
     onSuccess: () => {
-      {navigate(`/dashboard/group/${data.data!.id}`)}
+      {data.data!.id&&navigate(`/dashboard/group/${data.data!.id}`)}
       setDescription(""); 
       setName("");
     },
