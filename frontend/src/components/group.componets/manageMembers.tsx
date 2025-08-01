@@ -32,6 +32,7 @@ type members = {
   user: {
     firstName: string;
     secondName: string;
+    imgUrl: string;
   };
 };
 type Props = {
@@ -126,7 +127,7 @@ function HandleMembersDrawer({ directive }: Props) {
                 <Card>
                   <CardContent>
                     <Stack direction="row" gap={1} alignItems="center">
-                      <Avatar
+                      {!dst.user.imgUrl&&<Avatar
                         sx={{
                           textTransform: "capitalize",
                           backgroundColor: "grey",
@@ -136,7 +137,8 @@ function HandleMembersDrawer({ directive }: Props) {
                         <Typography>
                           {dst.user!.secondName.charAt(0)}
                         </Typography>
-                      </Avatar>
+                      </Avatar>}
+                      {dst.user.imgUrl&&<Box component="img" src={dst.user.imgUrl}/>}
                       <Stack >
                         <Stack
                           direction="row"
