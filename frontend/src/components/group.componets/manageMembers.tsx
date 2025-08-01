@@ -138,7 +138,7 @@ function HandleMembersDrawer({ directive }: Props) {
                           {dst.user!.secondName.charAt(0)}
                         </Typography>
                       </Avatar>}
-                      {dst.user.imgUrl&&<Box component="img" src={dst.user.imgUrl}/>}
+                      {dst.user.imgUrl&&<Box width="2.3rem" height="2.3rem" borderRadius="50%" component="img" src={dst.user.imgUrl}/>}
                       <Stack >
                         <Stack
                           direction="row"
