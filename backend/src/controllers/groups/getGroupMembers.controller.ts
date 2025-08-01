@@ -12,7 +12,8 @@ const getMembers = asyncHandler(async (req:Request, res:Response)=>{
             user:{
                 select:{
                     firstName: true,
-                    secondName:true
+                    secondName:true,
+                    imgUrl: true
                 }
             }
         }
