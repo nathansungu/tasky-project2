@@ -32,8 +32,10 @@ const CreateGroup = () => {
   const { mutate, data, isPending } = useMutation({
     mutationKey: ["createGroup"],
     mutationFn: createGroup,
-    onSuccess: (responseData) => {
-      {responseData&&navigate(`/dashboard/group/${responseData.data!.id}`)}
+    onSuccess: async(responseData) => {
+      console.log(responseData)
+      if(responseData){
+      await navigate(`/dashboard/group/${responseData?.data}`)}
       setDescription(""); 
       setName("");
     },
