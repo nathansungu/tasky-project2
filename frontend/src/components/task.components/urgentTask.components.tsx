@@ -1,5 +1,6 @@
 import {
   Alert,
+  Box,
   Button,
   Card,
   CardContent,
@@ -23,8 +24,6 @@ const UrgentTaskCard = () => {
   const [tasks, setTasks] = useState([]);
   const [backendResponse, setBackendResponse] = useState("");
   const [CompleteStatus, setCompleteStatus] = useState("");
-  const [_hovered, setHoverd] = useState(false);
-
   const navigate = useNavigate();
   const fetchUrgentTask = async () => {
     const response = await axiosInstance.get("/task");
@@ -80,12 +79,11 @@ const UrgentTaskCard = () => {
 
   return (
     <>
-      {/* //TODO : add time out on alerts */}
       {!!CompleteStatus && <Alert>{CompleteStatus}</Alert>}
       {!!backendResponse && <Alert>{backendResponse}</Alert>}
 
       {tasks.length == 0 && !isLoading && (
-        <Stack sx={{ width: "100%", mt: 5, alignItems: "center" }}>
+        <Stack direction="column"sx={{ width: "100%", mt: 5, alignItems: "center", justifyContent:"center", height:"60vh"}}>
           <Typography
             sx={{
               color: "black",
@@ -94,8 +92,9 @@ const UrgentTaskCard = () => {
               fontSize: "1.5rem",
             }}
           >
-            Add Task to see them. Your Tasks will Appear Here
+           You don't have tasks yet. <a href="/dashboard/create-task">Add Task</a>  to see them. 
           </Typography>
+          <Box width="4rem" height="4rem" component="img" src="/empty box.png"/>
         </Stack>
       )}
       {isLoading && (
@@ -117,8 +116,6 @@ const UrgentTaskCard = () => {
         {tasks.map((task: task) => (
           <Grid key={task.id} size={{ md: 4, sm: 6, xs: 12 }}>
             <Card
-              onMouseEnter={() => setHoverd(true)}
-              onMouseLeave={() => setHoverd(false)}
               sx={{
                 minHeight: "30rem",
               }}
