@@ -19,7 +19,7 @@ const createGroup= asyncHandler(async(req: Request, res:Response )=>{
     }
     
 
-    return res.status(201).json({message:"Group created Succesfully", data: newGgroup})
+    return res.status(201).json({message:"Group created Succesfully", data: newGgroup.id})
 })
 
 export default createGroup;

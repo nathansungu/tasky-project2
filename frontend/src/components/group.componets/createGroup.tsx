@@ -12,11 +12,13 @@ import axiosInstance from "../../api/axios";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const CreateGroup = () => {
   const [img, setImg] = useState<File | null>();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setIsloading] = useState(false);
+  const navigate = useNavigate()
   //create group
   const createGroup = async (data: {
     imgUrl: string;
@@ -24,21 +26,22 @@ const CreateGroup = () => {
     description: string;
   }) => {
     const response = await axiosInstance.post("/group", data);
-    console.log(response);
-    return response.data.message;
+    return response.data;
   };
 
   const { mutate, data, isPending } = useMutation({
     mutationKey: ["createGroup"],
     mutationFn: createGroup,
     onSuccess: () => {
-      setDescription("");
+      {navigate(`/dashboard/group/${data.data!.id}`)}
+      setDescription(""); 
       setName("");
     },
+    onError: (e)=>console.log(e)
   });
 
   const handleCreateGroup = async () => {
-    const cloudinaryUrl = await uploadImage();
+    const cloudinaryUrl = await uploadImage() || "";
     const data = {
       imgUrl: cloudinaryUrl,
       name,
@@ -88,7 +91,7 @@ const CreateGroup = () => {
         }}
       >
         <CardContent>
-          {data && <Alert>{data}</Alert>}
+          {data && <Alert>{data.message}</Alert>}
           <Stack
             direction="column"
             spacing={3}
