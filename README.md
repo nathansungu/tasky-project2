@@ -1,6 +1,9 @@
 📝 Tasky – Task Management Web App
 Tasky is a powerful, full-stack task management web application built with modern technologies including React, TypeScript, Material UI, Node.js, Prisma, Zod, and PostgreSQL. Designed for individuals and teams, Tasky makes it simple to manage tasks, groups, and collaboration — all in a sleek, responsive interface.
 
+
+Live link: https://tasky-project2.vercel.app
+
 🚀 Features
 ✅ Tasks
 Create, update, and delete tasks
