@@ -7,6 +7,9 @@ import tasks from "./routes/tasks.route";
 import user from "./routes/user.routes";
 import authenticateLogin from "./middleware/isLoggedIn.middleware";
 import group from "./routes/groups.route";
+import { swaggerOptions } from "../swagger";
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
 
 const app = express();
 app.use(express.json());
@@ -24,9 +27,14 @@ app.use("/api/user",authenticateLogin,user)
 app.use("/api/group",authenticateLogin,group)
 app.use(errorHandler);
 
+///swagger setup
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 const port = process.env.port || 4000;
 app.listen(port, (e) => {
   e
     ? console.log(`Port ${port} is in use`)
     : console.log(`app is live on port ${port}`);
 });
+
